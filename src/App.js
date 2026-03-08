@@ -80,6 +80,14 @@ function App() {
             </button>
 
             <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}>
+              <button
+                type="button"
+                className="close-menu-btn d-lg-none"
+                onClick={toggleMenu}
+              >
+                ✕
+              </button>
+
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 nav-links">
                 <li className={`nav-item ${activePage === 'inicio' ? 'active' : ''}`}>
                   <span className="nav-link" onClick={() => handleNavClick('inicio')}>Início</span>
@@ -93,9 +101,16 @@ function App() {
                 <li className={`nav-item ${activePage === 'contato' ? 'active' : ''}`}>
                   <span className="nav-link" onClick={() => handleNavClick('contato')}>Contato</span>
                 </li>
+                {/* Link de orçamento dentro do menu (visível só no hambúrguer) */}
+                <li className="nav-item d-lg-none">
+                  <span className="nav-link" onClick={() => handleNavClick('contato')}>
+                    Solicitar Orçamento
+                  </span>
+                </li>
               </ul>
 
-              <button className="btn btn-warning rounded-pill quote-button">
+              {/* Botão de orçamento visível só em telas grandes */}
+              <button className="btn btn-warning rounded-pill quote-button d-none d-lg-inline-block">
                 Solicitar Orçamento
               </button>
             </div>
