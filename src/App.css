@@ -38,6 +38,15 @@ body {
   border-color: #0056b3;
 }
 
+.navbar-nav.nav-links {
+  justify-content: center;
+  width: 100%;
+}
+
+.navbar-nav.nav-links .nav-item {
+  margin: 0 8px;
+}
+
 .logo {
   margin-left: 20px; /* Adicionei um espaçamento à esquerda para mover a logo para a direita */
 }
@@ -101,7 +110,7 @@ body {
 }
 
 .quote-button {
-  background-color: #ff5722;
+  background-color: #26975f;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -123,7 +132,7 @@ body {
   background-size: cover;
   background-position: center;
   color: rgb(255, 255, 255);
-  height: 300px; /* Aumentei a altura da seção hero */
+  height: 420px; /* antes 360px: aumenta um pouco mais a área do banner */
   margin-top: 0; /* Remove o espaço entre o hero e o navbar */
   font-size: 1.5rem; /* Aumentei o tamanho da fonte para um maior */
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Adicionei sombra interna para destaque */
@@ -157,7 +166,7 @@ body {
 }
 
 .hero-buttons button {
-  background-color: #ff5722;
+  background-color: #26975f;
   color: white;
   padding: 10px 20px;
   border-radius: 25px;
@@ -187,8 +196,7 @@ body {
 .products h2 {
   position: relative;
   display: inline-block;
-  text-align: center;
-  width: 100%;
+  padding: 0 12px; /* espaço lateral para o texto */
 }
 
 .products h2::before,
@@ -196,17 +204,21 @@ body {
   content: '';
   position: absolute;
   top: 50%;
-  width: 40%;
+  transform: translateY(-50%);
   height: 2px;
-  background-color: rgba(0, 0, 0, 0.144); /* Cor preta para as linhas divisórias */
+  background-color: rgba(0, 0, 0, 0.144);
 }
 
 .products h2::before {
-  left: 0;
+  right: 100%;
+  margin-right: 16px;
+  width: 250px; /* mesmo tamanho aproximado da linha de Solicite um Orçamento */
 }
 
 .products h2::after {
-  right: 0;
+  left: 100%;
+  margin-left: 16px;
+  width: 250px; /* mesmo tamanho aproximado da linha de Solicite um Orçamento */
 }
 
 .product-list {
@@ -261,6 +273,11 @@ body {
   align-items: flex-start;
   gap: 20px;
   margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.contact-container > div {
+  display: block;
 }
 
 .contact-form {
@@ -327,12 +344,13 @@ body {
   font-size: 16px;
 }
 
+/* ===== LINHA DO TÍTULO 'SOLICITE UM ORÇAMENTO' ===== */
 .contact h2 {
   position: relative;
   display: inline-block;
-  text-align: center; /* Centraliza o texto */
-  padding: 0; /* Remove o espaçamento lateral */
-  width: auto; /* Ajusta a largura ao conteúdo */
+  text-align: center;
+  padding: 0;
+  width: auto;
 }
 
 .contact h2::before,
@@ -340,19 +358,68 @@ body {
   content: '';
   position: absolute;
   top: 50%;
-  transform: translateY(-50%); /* Centraliza verticalmente as linhas */
+  transform: translateY(-50%);
   height: 2px;
   background-color: rgba(0, 0, 0, 0.267);
 }
 
+/* Desktop grande (padrão) */
 .contact h2::before {
-  left: -520px;
-  width: 510px;
+  left: -260px;
+  width: 250px;
 }
 
 .contact h2::after {
-  right: -520px;
-  width: 510px;
+  right: -260px;
+  width: 250px;
+}
+
+/* até 1200px – encurta, mas SEM mexer em left/right separadamente */
+@media (max-width: 1200px) {
+  .contact h2::before {
+    left: -220px;
+    width: 210px;
+  }
+  .contact h2::after {
+    right: -220px;
+    width: 210px;
+  }
+}
+
+/* até 1024px – tablet */
+@media (max-width: 1024px) {
+  .contact h2::before {
+    left: -180px;
+    width: 170px;
+  }
+  .contact h2::after {
+    right: -180px;
+    width: 170px;
+  }
+}
+
+/* até 768px – celular */
+@media (max-width: 768px) {
+  .contact h2::before {
+    left: -100px;
+    width: 90px;
+  }
+  .contact h2::after {
+    right: -100px;
+    width: 90px;
+  }
+}
+
+/* até 480px – celular pequeno */
+@media (max-width: 480px) {
+  .contact h2::before {
+    left: -70px;
+    width: 60px;
+  }
+  .contact h2::after {
+    right: -70px;
+    width: 60px;
+  }
 }
 
 .App-link {
@@ -423,7 +490,8 @@ body {
 }
 
 .about-image {
-  width: 50%;
+  width: 100%;      /* usa toda a coluna do Bootstrap */
+  max-width: 520px; /* limite para não estourar */
   height: auto;
   border-radius: 10px;
   clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%); /* Adicionei um corte vertical no lado direito da imagem */
@@ -514,6 +582,16 @@ body {
   .contact-container {
     gap: 16px;
   }
+
+  .products h2::before,
+  .products h2::after {
+    width: 180px; /* menor que no desktop */
+  }
+
+  .about h2::before,
+  .about h2::after {
+    width: 45px; /* um pouco menor que no desktop */
+  }
 }
 
 /* Telas até 768px (celular) */
@@ -568,8 +646,13 @@ body {
   }
 
   .about h2 {
-    margin-right: 0;
-    margin-left: 16px;       /* puxa o título um pouco da esquerda no mobile */
+    margin-right: 0;         /* não força tão à direita no mobile */
+    margin-left: 16px;       /* puxa um pouco da esquerda */
+  }
+
+  .about h2::before,
+  .about h2::after {
+    width: 35px;             /* linhas menores em tablet/celular */
   }
 
   .product-list {
@@ -589,6 +672,11 @@ body {
   .whatsapp-contact {
     width: 100%;
     max-width: 100%;
+  }
+
+  .products h2::before,
+  .products h2::after {
+    width: 100px; /* ainda menor no tablet/celular */
   }
 
   .floating-whatsapp-button {
@@ -625,5 +713,37 @@ body {
 
   .product-item button {
     width: 100%;
+  }
+
+  .products h2::before,
+  .products h2::after {
+    width: 70px; /* bem curtinhas em telas muito pequenas */
+  }
+
+  .about h2::before,
+  .about h2::after {
+    width: 25px;             /* bem curtinhas em telas muito pequenas */
+  }
+}
+
+/* em telas pequenas já empilha pelo Bootstrap; se quiser forçar lado a lado só em desktop: */
+@media (min-width: 768px) {
+  .contact-container {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 1200px) {
+  .about h2::before,
+  .about h2::after {
+    display: none; /* some com as linhas do SOBRE em telas <= 1200px */
+  }
+  .about h2 {
+    font-size: 20px; /* diminui o título Sobre a EcoApack em telas <= 1200px */
+    margin-right: 40px; /* aproxima um pouco da direita para não ficar exagerado */
+    /* anula o empurrão para a direita nesse tamanho */
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
   }
 }
