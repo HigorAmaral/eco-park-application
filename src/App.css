@@ -69,10 +69,12 @@ body {
   align-items: flex-end;
   width: 100%;
   gap: 10px;
+  display: flex !important; /* força exibição dos links quando o collapse estiver visível */
 }
 
 .navbar-collapse .navbar-nav.nav-links .nav-item {
-  width: 100%;
+  text-align: right;
+  padding-left: 42px;
 }
 
 /* botão de orçamento dentro do painel em mobile já está como link; o botão grande só em desktop */
@@ -94,13 +96,23 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 10px !important;
+    gap: 4px !important; /* pequeno gap entre itens */
   }
 }
 
 .navbar-nav.nav-links {
   justify-content: center;
   width: 100%;
+  gap: 4px !important; /* pequeno gap entre itens */
+}
+
+.navbar-nav.nav-links .nav-item {
+  margin: 0 !important;
+
+}
+
+.navbar-nav.nav-links .nav-link {
+  padding: 4px 6px !important; /* pouco padding, mas ainda clicável */
 }
 
 /* remove regra global que zerava margem e atrapalhava o ajuste do desktop */
@@ -114,14 +126,11 @@ body {
 
 .nav-links {
   list-style: none;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  /* removendo display/column/gap antigos para não conflitar com Bootstrap */
 }
 
 .nav-links.active {
-  display: flex;
+  display: unset; /* não usaremos mais este toggle antigo */
 }
 
 .hamburger {
@@ -170,6 +179,8 @@ body {
   color: #000 !important; /* links pretos */
   padding-left: 0;  /* remove padding horizontal */
   padding-right: 0;
+  font-weight: 600;
+  text-decoration: none !important;
 }
 
 .nav-links .nav-link:hover,
@@ -178,15 +189,19 @@ body {
 }
 
 .navbar-nav .nav-item.active .nav-link {
+  position: relative;
   color: #2f9647 !important; /* cor do link ativo */
-  text-decoration: underline;
-  text-decoration-color: #4CAF50;
-  text-decoration-thickness: 3px;
-  text-underline-offset: 3px;
 }
 
 .navbar-nav .nav-item.active .nav-link::after {
-  content: none !important;
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 3px;
+  background-color: #2f9647;
+  border-radius: 2px;
 }
 
 .quote-button {
@@ -338,6 +353,212 @@ body {
   background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
   transform: scale(1.05);
 }
+
+/* ===== MODAL / OVERLAY DE DETALHES DE PRODUTO ===== */
+.product-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500; /* acima do navbar e do resto */
+}
+
+.product-modal {
+  background: #ffffff;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 20px;
+  padding: 24px 24px 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: left;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.product-modal-body {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+}
+
+/* Coluna esquerda: miniaturas em coluna + imagem grande ao lado */
+.product-modal-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.product-modal-thumbs-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-modal-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.product-modal-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-modal-thumb:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  border-color: rgba(38, 151, 95, 0.4);
+}
+
+.product-modal-image-large {
+  width: 260px;
+  height: 260px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  position: relative;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.product-modal-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: none;              /* remove scale global */
+  box-shadow: none;
+}
+
+.product-modal-image-large::before {
+  content: '';
+  position: absolute;
+  width: 140px;                 /* diâmetro da lupa */
+  height: 140px;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  background-repeat: no-repeat;
+  background-size: 200% 200%;   /* nível de zoom */
+}
+
+.product-modal-image-large.lens-active::before {
+  opacity: 1;
+}
+
+/* Coluna direita: informações */
+.product-modal-info {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.product-modal-info p {
+  margin-bottom: 6px;
+}
+
+.product-modal-info strong {
+  color: #26975f;
+}
+
+/* Responsivo: empilha no mobile */
+@media (max-width: 768px) {
+  .product-modal-body {
+    flex-direction: column;
+  }
+
+  .product-modal-left {
+    justify-content: center;
+  }
+
+  .product-modal-image-large {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+/* Remover estilos antigos que causavam múltiplas imagens verticais */
+.product-modal-image img {
+  max-width: none;
+  height: auto;
+}
+
+.product-modal h3 {
+  margin-bottom: 12px;
+}
+
+.product-modal p {
+  margin-bottom: 6px;
+}
+
+.product-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .product-modal {
+    width: 95%;
+    padding: 20px 16px 16px;
+  }
+}
+
+/* Centraliza o título do produto no modal e empurra levemente para a direita o botão em desktop */
+@media (min-width: 769px) {
+  .product-modal h3 {
+    text-align: center;
+    margin-left: 12px; /* leve deslocamento visual para a direita */
+  }
+
+  .product-modal-info {
+    text-align: left; /* mantém textos alinhados à esquerda */
+  }
+
+  .product-modal-info .btn.btn-success {
+    display: inline-block;
+    margin-left: 20px; /* botão um pouco mais para a direita em relação aos textos */
+  }
+}
+
+@media (max-width: 768px) {
+  .product-modal h3 {
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .product-modal-info {
+    text-align: left;
+  }
+
+  .product-modal-info .btn.btn-success {
+    margin-left: 0;
+  }
+}
+
+/* ===== FIM MODAL DE PRODUTO ===== */
 
 .contact {
   padding: 20px;
@@ -516,7 +737,7 @@ body {
 }
 
 .logo-image {
-  height: 100px; /* Aumentei a altura da logo para 100px */
+  height: 110px; /* antes ~100px, aumenta ligeiramente */
   width: auto;
 }
 
@@ -828,6 +1049,14 @@ body {
   }
 }
 
+/* Ajuste do botão de orçamento em telas entre 1006px e 1200px */
+@media (max-width: 1006px) {
+  .quote-button {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+}
+
 .close-menu-btn {
   position: absolute;
   top: 16px;
@@ -884,7 +1113,7 @@ body {
 
   /* menu em linha, com espaçamento pequeno controlado aqui */
   .navbar-collapse .navbar-nav.nav-links {
-    gap: 10px !important; /* << diminuindo espaço dos links */
+    gap: 4px !important; /* << diminuindo espaço dos links */
     justify-content: center;
   }
 
@@ -895,10 +1124,178 @@ body {
   /* remove margens/paddings extras que somam espaço */
   .navbar-nav.nav-links .nav-item {
     margin: 0 !important;
-    padding: 0 !important;
   }
 
   .navbar-nav.nav-links .nav-link {
-    padding: 0 8px !important;
+    padding: 2px 6px !important;
   }
 }
+
+/* === RESET NAVBAR / NAV-LINKS PARA EVITAR CONFLITO === */
+
+/* Zera qualquer linha e estilo herdado em li.active */
+.nav-links li.active::after {
+  content: none !important;
+}
+
+/* Garante que nenhum nav-link venha sublinhado por padrão */
+.nav-links .nav-link,
+.navbar-nav .nav-link {
+  text-decoration: none !important;
+}
+
+/* Estilo ÚNICO da linha verde do link ativo */
+.navbar-nav .nav-item.active .nav-link {
+  position: relative;
+  color: #2f9647 !important;
+}
+
+.navbar-nav .nav-item.active .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 3px;
+  background-color: #2f9647;
+  border-radius: 2px;
+}
+
+/* === ESPAÇAMENTO ENTRE LINKS DO MENU === */
+
+/* Regra base: pouco espaço entre os itens */
+.navbar-nav.nav-links {
+  display: flex;
+  gap: 4px !important;          /* espaço pequeno entre <li> */
+}
+
+
+.navbar-nav.nav-links .nav-link {
+  padding: 2px 6px !important;  /* padding horizontal bem justo */
+}
+
+/* Menu hambúrguer: links em coluna, um abaixo do outro */
+.navbar-collapse .navbar-nav.nav-links {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Desktop (>= 992px): links em linha com pouco espaço */
+@media (min-width: 992px) {
+  .navbar-collapse .navbar-nav.nav-links {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4px !important;
+  }
+}
+
+/* === FIM: AJUSTES NAVBAR === */
+
+/* Ajuste: reduzir espaço nas extremidades da barra de links do navbar */
+
+/* Em telas grandes, restringe a largura do grupo de links e remove sobras nas pontas */
+@media (min-width: 992px) {
+  .navbar-nav.nav-links {
+    width: auto;                 /* não ocupa 100% da largura */
+    margin-left: 16px;           /* pequeno espaço após a logo */
+    margin-right: 16px;          /* pequeno espaço antes do botão de orçamento */
+    justify-content: center;     /* mantém os links centralizados dentro desse espaço menor */
+  }
+
+  /* Garante que o container do navbar não abra muito espaçamento lateral */
+  .navbar .container-fluid {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+/* Em telas menores, diminui um pouco o padding lateral do painel do menu para reduzir espaço sobrando nas bordas */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+.navbar-brand.logo {
+  margin-left: 32px; /* era 20px em muitos trechos, ajusta para um pouco mais à direita */
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+  color: #555;
+}
+
+.site-footer .footer-brand {
+  font-weight: 700;
+  color: #26975f;
+}
+
+.site-footer .footer-text {
+  color: #555;
+}
+
+.site-footer .footer-text a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-footer .footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* garante que o footer não cole demais nas bordas em telas pequenas */
+@media (max-width: 576px) {
+  .site-footer .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Estilização dos ícones de redes sociais no footer */
+.footer-section-title {
+  font-weight: 600;
+  color: #333;
+}
+
+.footer-social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-social-icon.instagram {
+  background: radial-gradient(circle at 30% 30%, #ffd600 0, #ff0080 40%, #ff0000 60%, #833ab4 100%);
+}
+
+.footer-social-icon.facebook {
+  background-color: #1877f2;
+}
+
+.footer-social-icon.whatsapp {
+  background-color: #25d366;
+}
+
+.footer-social-icon:hover {
+  filter: brightness(1.1);
+}
+
+/* desloca levemente a coluna de contato para a direita em md+ */
+@media (min-width: 768px) {
+  .footer-contact-col {
+    padding-left: 24px; /* empurra o conteúdo um pouco para a direita */
+  }
+}
+
+/* ===== FIM FOOTER ===== */

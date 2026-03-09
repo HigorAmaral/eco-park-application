@@ -8,14 +8,25 @@ import banner from './assets/imagens/banner.png';
 function App() {
   const [activePage, setActivePage] = useState('inicio');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const orcamentoFormRef = useRef(null);
   const contatoFormRef = useRef(null);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const handleNavClick = (page) => {
+  const handleNavClick = (page, scrollToOrcamento = false) => {
     setActivePage(page);
     setIsMenuOpen(false);
+
+    // se já estivermos na página início e for para orçamento, rola para a seção
+    if (scrollToOrcamento && page === 'inicio') {
+      setTimeout(() => {
+        const section = document.getElementById('orcamento-section');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
   };
 
   const handleSendOrcamento = (e) => {
@@ -62,24 +73,46 @@ function App() {
       );
   };
 
+  const openProductDetails = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const closeProductDetails = () => {
+    setSelectedProduct(null);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <nav className="navbar navbar-expand-lg bg-white shadow-sm px-3 px-md-4">
+        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3 px-md-4">
           <div className="container-fluid">
-            <div className="d-flex align-items-center logo">
+            {/* Logo como botão para "Início" */}
+            <button
+              type="button"
+              className="navbar-brand d-flex align-items-center logo btn btn-link p-0 border-0 text-decoration-none"
+              onClick={() => handleNavClick('inicio')}
+            >
               <img src={logo} alt="Logo" className="logo-image me-2" />
-            </div>
+            </button>
 
+            {/* Botão hamburguer Bootstrap customizado */}
             <button
               className="navbar-toggler"
               type="button"
+              aria-controls="navbarSupportedContent"
+              aria-expanded={isMenuOpen}
+              aria-label="Toggle navigation"
               onClick={toggleMenu}
             >
               <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}>
+            {/* Menu colapsável (painel lateral em mobile) */}
+            <div
+              className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}
+              id="navbarSupportedContent"
+            >
+              {/* Botão X para fechar no mobile, posicionado no canto superior direito do painel */}
               <button
                 type="button"
                 className="close-menu-btn d-lg-none"
@@ -88,29 +121,56 @@ function App() {
                 ✕
               </button>
 
+              {/* Links do menu – empilhados em mobile, em linha no desktop */}
               <ul className="navbar-nav mx-auto mb-2 mb-lg-0 nav-links">
                 <li className={`nav-item ${activePage === 'inicio' ? 'active' : ''}`}>
-                  <span className="nav-link" onClick={() => handleNavClick('inicio')}>Início</span>
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={() => handleNavClick('inicio')}
+                  >
+                    Início
+                  </button>
                 </li>
                 <li className={`nav-item ${activePage === 'empresa' ? 'active' : ''}`}>
-                  <span className="nav-link" onClick={() => handleNavClick('empresa')}>Empresa</span>
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={() => handleNavClick('empresa')}
+                  >
+                    Empresa
+                  </button>
                 </li>
                 <li className={`nav-item ${activePage === 'sustentabilidade' ? 'active' : ''}`}>
-                  <span className="nav-link" onClick={() => handleNavClick('sustentabilidade')}>Sustentabilidade</span>
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={() => handleNavClick('sustentabilidade')}
+                  >
+                    Sustentabilidade
+                  </button>
                 </li>
                 <li className={`nav-item ${activePage === 'contato' ? 'active' : ''}`}>
-                  <span className="nav-link" onClick={() => handleNavClick('contato')}>Contato</span>
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={() => handleNavClick('contato')}
+                  >
+                    Contato
+                  </button>
                 </li>
-                {/* Link de orçamento dentro do menu (visível só no hambúrguer) */}
+                {/* Link de orçamento no menu hambúrguer (mobile) */}
                 <li className="nav-item d-lg-none">
-                  <span className="nav-link" onClick={() => handleNavClick('contato')}>
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={() => handleNavClick('contato')}
+                  >
                     Solicitar Orçamento
-                  </span>
+                  </button>
                 </li>
               </ul>
 
-              {/* Botão de orçamento visível só em telas grandes */}
-              <button className="btn btn-warning rounded-pill quote-button d-none d-lg-inline-block ms-lg-4">
+              {/* Botão de orçamento separado, visível apenas em desktop */}
+              <button
+                className="btn btn-warning rounded-pill quote-button d-none d-lg-inline-block ms-lg-4"
+                onClick={() => handleNavClick('inicio', true)}
+              >
                 Solicitar Orçamento
               </button>
             </div>
@@ -143,48 +203,201 @@ function App() {
                   <div className="product-item w-100 text-center p-3">
                     <img src={balde} alt="Pote 900ml" className="img-fluid mb-2" />
                     <h3>Pote 900ml</h3>
-                    <button className="btn btn-primary mt-2">Ver Detalhes</button>
+                    <button
+                      className="btn btn-primary mt-2"
+                      type="button"
+                      onClick={() => openProductDetails('pote900')}
+                    >
+                      Ver Detalhes
+                    </button>
                   </div>
                 </div>
                 <div className="col-12 col-md-4 mb-4 d-flex">
                   <div className="product-item w-100 text-center p-3">
                     <img src={balde} alt="Pote 1kg" className="img-fluid mb-2" />
                     <h3>Pote 1kg</h3>
-                    <button className="btn btn-primary mt-2">Ver Detalhes</button>
+                    <button
+                      className="btn btn-primary mt-2"
+                      type="button"
+                      onClick={() => openProductDetails('pote1kg')}
+                    >
+                      Ver Detalhes
+                    </button>
                   </div>
                 </div>
                 <div className="col-12 col-md-4 mb-4 d-flex">
                   <div className="product-item w-100 text-center p-3">
                     <img src={balde} alt="Pote 1,2kg" className="img-fluid mb-2" />
                     <h3>Pote 1,2kg</h3>
-                    <button className="btn btn-primary mt-2">Ver Detalhes</button>
+                    <button
+                      className="btn btn-primary mt-2"
+                      type="button"
+                      onClick={() => openProductDetails('pote12kg')}
+                    >
+                      Ver Detalhes
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </section>
+
+          {/* Overlay/página sobreposta de detalhes de produto */}
+          {selectedProduct && (
+            <div className="product-modal-backdrop" onClick={closeProductDetails}>
+              <div
+                className="product-modal"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  className="product-modal-close"
+                  onClick={closeProductDetails}
+                >
+                  ✕
+                </button>
+
+                {selectedProduct === 'pote900' && (
+                  <>
+                    <h3>Pote 900ml</h3>
+                    <div className="product-modal-body">
+                      {/* Coluna esquerda: miniaturas + imagem grande */}
+                      <div className="product-modal-left">
+                        <div className="product-modal-thumbs-column">
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 900ml - vista 1" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 900ml - vista 2" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 900ml - vista 3" /></div>
+                        </div>
+                        <div className="product-modal-image-large">
+                          <img src={balde} alt="Pote 900ml" />
+                        </div>
+                      </div>
+
+                      {/* Coluna direita: informações + botão de orçamento */}
+                      <div className="product-modal-info">
+                        <p><strong>Descrição:</strong> Pote plástico indicado para produtos em menores volumes, com excelente vedação e alta durabilidade.</p>
+                        <p><strong>Tamanho externo aproximado:</strong> 12 cm (diâmetro) x 10 cm (altura).</p>
+                        <p><strong>Peso do pote (vazio):</strong> 80 g.</p>
+                        <p><strong>Capacidade / quanto suporta:</strong> 900 ml (aprox. 0,9 kg para produtos de densidade próxima à água).</p>
+                        <p><strong>Aplicações:</strong> Nutrição animal, suplementos, granulados, produtos em pó e pastosos em menor volume.</p>
+                        <p><strong>Variação por cor:</strong> Tampa nas cores branco, preto, verde e azul; corpo em branco ou natural translúcido.</p>
+
+                        <button
+                          type="button"
+                          className="btn btn-success mt-3"
+                          onClick={() => {
+                            closeProductDetails();
+                            handleNavClick('inicio', true);
+                          }}
+                        >
+                          Solicitar Orçamento deste produto
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {selectedProduct === 'pote1kg' && (
+                  <>
+                    <h3>Pote 1kg</h3>
+                    <div className="product-modal-body">
+                      <div className="product-modal-left">
+                        <div className="product-modal-thumbs-column">
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1kg - vista 1" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1kg - vista 2" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1kg - vista 3" /></div>
+                        </div>
+                        <div className="product-modal-image-large">
+                          <img src={balde} alt="Pote 1kg" />
+                        </div>
+                      </div>
+                      <div className="product-modal-info">
+                        <p><strong>Descrição:</strong> Pote robusto, ideal para produtos de maior volume, com fechamento seguro para transporte e empilhamento.</p>
+                        <p><strong>Tamanho externo aproximado:</strong> 14 cm (diâmetro) x 12 cm (altura).</p>
+                        <p><strong>Peso do pote (vazio):</strong> 95 g.</p>
+                        <p><strong>Capacidade / quanto suporta:</strong> 1 kg (para produtos sólidos ou em pó, variando conforme densidade).</p>
+                        <p><strong>Aplicações:</strong> Rações, nutracêuticos, produtos químicos sólidos, fertilizantes e similares.</p>
+                        <p><strong>Variação por cor:</strong> Tampas em branco, preto, vermelho e verde; corpo em branco ou natural.</p>
+
+                        <button
+                          type="button"
+                          className="btn btn-success mt-3"
+                          onClick={() => {
+                            closeProductDetails();
+                            handleNavClick('inicio', true);
+                          }}
+                        >
+                          Solicitar Orçamento deste produto
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {selectedProduct === 'pote12kg' && (
+                  <>
+                    <h3>Pote 1,2kg</h3>
+                    <div className="product-modal-body">
+                      <div className="product-modal-left">
+                        <div className="product-modal-thumbs-column">
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1,2kg - vista 1" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1,2kg - vista 2" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1,2kg - vista 3" /></div>
+                        </div>
+                        <div className="product-modal-image-large">
+                          <img src={balde} alt="Pote 1,2kg" />
+                        </div>
+                      </div>
+                      <div className="product-modal-info">
+                        <p><strong>Descrição:</strong> Pote com volume intermediário, indicado para linhas premium ou embalagens econômicas.</p>
+                        <p><strong>Tamanho externo aproximado:</strong> 15 cm (diâmetro) x 13 cm (altura).</p>
+                        <p><strong>Peso do pote (vazio):</strong> 105 g.</p>
+                        <p><strong>Capacidade / quanto suporta:</strong> 1,2 kg (aprox., conforme densidade do produto).</p>
+                        <p><strong>Aplicações:</strong> Nutrição animal premium, suplementos, produtos alimentícios e químicos sólidos.</p>
+                        <p><strong>Variação por cor:</strong> Tampas em branco, azul, verde e amarelo; corpo em branco ou translúcido.</p>
+
+                        <button
+                          type="button"
+                          className="btn btn-success mt-3"
+                          onClick={() => {
+                            closeProductDetails();
+                            handleNavClick('inicio', true);
+                          }}
+                        >
+                          Solicitar Orçamento deste produto
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
           <section className="about py-4 py-md-5">
             <div className="container">
-              <div className="row about-container align-items-center g-4">
-                <div className="col-12 col-lg-6 d-flex justify-content-center">
-                  <img src={banner} alt="Sobre a EcoApack" className="about-image img-fluid" />
+              <h2>Sobre a <span>EcoApack</span></h2>
+              <div className="row align-items-stretch mt-3">
+                <div className="col-12 col-md-6 mb-3 mb-md-0">
+                  <img src={banner} alt="Linha de produção EcoApack" className="about-image" />
                 </div>
-                <div className="col-12 col-lg-6">
-                  <div className="about-text">
-                    <h2>Sobre a EcoApack</h2>
+                <div className="col-12 col-md-6 d-flex">
+                  <div className="about-text-box p-3 p-md-4 w-100">
                     <p>
-                      A <strong>EcoApack</strong> fornece potes plásticos industriais para os setores de
-                      <strong> alimentos</strong>, <strong>químicos</strong> e <strong>nutrição animal</strong>.
+                      A <strong>EcoApack</strong> fornece potes plásticos industriais
+                      para os setores de <strong>alimentos</strong>, <strong>químicos</strong> e
+                      <strong> nutrição animal</strong>.
                     </p>
-                    <p>Qualidade, sustentabilidade e fornecimento confiável.</p>
+                    <p className="mb-0">
+                      Qualidade, sustentabilidade e fornecimento confiável.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          <section className="contact py-4 py-md-5">
+          <section id="orcamento-section" className="contact py-4 py-md-5">
             <div className="container">
               <h2>Solicite um Orçamento</h2>
               <div className="row contact-container mt-4 g-4">
@@ -392,6 +605,75 @@ function App() {
           style={{ width: '30px', height: '30px' }}
         />
       </button>
+
+      {/* Footer */}
+      <footer className="site-footer mt-4">
+        <div className="container py-4 py-md-5">
+          <div className="row gy-3 gy-md-4 align-items-start">
+            {/* Coluna 1: marca e descrição curta */}
+            <div className="col-12 col-md-4 text-center text-md-start">
+              <span className="footer-brand d-block mb-2">EcoApack</span>
+              <p className="footer-text mb-1">
+                Embalagens plásticas industriais com foco em qualidade e sustentabilidade.
+              </p>
+              <p className="footer-text mb-0">
+                Atendendo indústrias de alimentos, químicos e nutrição animal.
+              </p>
+            </div>
+
+            {/* Coluna 2: contato e endereço */}
+            <div className="col-12 col-md-4 text-center text-md-start footer-contact-col">
+              <h6 className="footer-section-title mb-2">Contato</h6>
+              <p className="footer-text mb-1">Telefone/WhatsApp: (11) 0000-0000</p>
+              <p className="footer-text mb-1">E-mail: contato@ecoapack.com.br</p>
+              <p className="footer-text mb-0">
+                Endereço: Rua Exemplo, 123 - Bairro Industrial<br />
+                Cidade - SC, Brasil
+              </p>
+            </div>
+
+            {/* Coluna 3: redes sociais */}
+            <div className="col-12 col-md-4 text-center text-md-start text-md-end">
+              <h6 className="footer-section-title mb-2">Redes Sociais</h6>
+              <div className="footer-social d-flex justify-content-center justify-content-md-end gap-3">
+                <a
+                  href="https://www.instagram.com/ecoapack"
+                  className="footer-social-icon instagram"
+                  aria-label="Instagram EcoApack"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className="fa-brands fa-instagram"></i>
+                </a>
+                <a
+                  href="https://www.facebook.com/ecoapack"
+                  className="footer-social-icon facebook"
+                  aria-label="Facebook EcoApack"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className="fa-brands fa-facebook-f"></i>
+                </a>
+                <a
+                  href="https://wa.me/1100000000"
+                  className="footer-social-icon whatsapp"
+                  aria-label="WhatsApp EcoApack"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className="fa-brands fa-whatsapp"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="footer-bottom text-center mt-3 pt-3 border-top">
+            <span className="footer-text">
+              &copy; {new Date().getFullYear()} EcoApack - Todos os direitos reservados.
+            </span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
