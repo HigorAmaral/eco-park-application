@@ -9,6 +9,8 @@ function App() {
   const [activePage, setActivePage] = useState('inicio');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedBucketColor, setSelectedBucketColor] = useState('Branco');
+  const [selectedLidColor, setSelectedLidColor] = useState('Branco');
   const orcamentoFormRef = useRef(null);
   const contatoFormRef = useRef(null);
 
@@ -75,10 +77,44 @@ function App() {
 
   const openProductDetails = (product) => {
     setSelectedProduct(product);
+    // reset cores padrão ao abrir detalhes
+    setSelectedBucketColor('Branco');
+    setSelectedLidColor('Branco');
   };
 
   const closeProductDetails = () => {
     setSelectedProduct(null);
+  };
+
+  const handleRequestQuoteFromModal = () => {
+    // monta descrição amigável do produto
+    let productName = '';
+    if (selectedProduct === 'pote900') productName = 'Pote 900ml';
+    if (selectedProduct === 'pote1kg') productName = 'Pote 1kg';
+    if (selectedProduct === 'pote12kg') productName = 'Pote 1,2kg';
+
+    const subjectText = `${productName} - Balde: ${selectedBucketColor} | Tampa: ${selectedLidColor}`;
+
+    // garante que estamos na página início e rola até o formulário
+    setActivePage('inicio');
+    setIsMenuOpen(false);
+
+    setTimeout(() => {
+      const section = document.getElementById('orcamento-section');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // preenche o campo "title" do formulário de orçamento
+      if (orcamentoFormRef.current) {
+        const titleInput = orcamentoFormRef.current.querySelector('input[name="title"]');
+        if (titleInput) {
+          titleInput.value = subjectText;
+        }
+      }
+    }, 200);
+
+    closeProductDetails();
   };
 
   return (
@@ -273,7 +309,7 @@ function App() {
                         </div>
                       </div>
 
-                      {/* Coluna direita: informações + botão de orçamento */}
+                      {/* Coluna direita: informações + seleção de cores + botão de orçamento */}
                       <div className="product-modal-info">
                         <p><strong>Descrição:</strong> Pote plástico indicado para produtos em menores volumes, com excelente vedação e alta durabilidade.</p>
                         <p><strong>Tamanho externo aproximado:</strong> 12 cm (diâmetro) x 10 cm (altura).</p>
@@ -282,13 +318,38 @@ function App() {
                         <p><strong>Aplicações:</strong> Nutrição animal, suplementos, granulados, produtos em pó e pastosos em menor volume.</p>
                         <p><strong>Variação por cor:</strong> Tampa nas cores branco, preto, verde e azul; corpo em branco ou natural translúcido.</p>
 
+                        {/* Seleção de cor do balde e tampa */}
+                        <div className="product-color-select mt-3">
+                          <div className="mb-2">
+                            <label className="form-label mb-1"><strong>Cor do balde:</strong></label>
+                            <select
+                              className="form-select form-select-sm"
+                              value={selectedBucketColor}
+                              onChange={(e) => setSelectedBucketColor(e.target.value)}
+                            >
+                              <option>Branco</option>
+                              <option>Natural translúcido</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="form-label mb-1"><strong>Cor da tampa:</strong></label>
+                            <select
+                              className="form-select form-select-sm"
+                              value={selectedLidColor}
+                              onChange={(e) => setSelectedLidColor(e.target.value)}
+                            >
+                              <option>Branco</option>
+                              <option>Preto</option>
+                              <option>Verde</option>
+                              <option>Azul</option>
+                            </select>
+                          </div>
+                        </div>
+
                         <button
                           type="button"
                           className="btn btn-success mt-3"
-                          onClick={() => {
-                            closeProductDetails();
-                            handleNavClick('inicio', true);
-                          }}
+                          onClick={handleRequestQuoteFromModal}
                         >
                           Solicitar Orçamento deste produto
                         </button>
@@ -319,13 +380,37 @@ function App() {
                         <p><strong>Aplicações:</strong> Rações, nutracêuticos, produtos químicos sólidos, fertilizantes e similares.</p>
                         <p><strong>Variação por cor:</strong> Tampas em branco, preto, vermelho e verde; corpo em branco ou natural.</p>
 
+                        <div className="product-color-select mt-3">
+                          <div className="mb-2">
+                            <label className="form-label mb-1"><strong>Cor do balde:</strong></label>
+                            <select
+                              className="form-select form-select-sm"
+                              value={selectedBucketColor}
+                              onChange={(e) => setSelectedBucketColor(e.target.value)}
+                            >
+                              <option>Branco</option>
+                              <option>Natural translúcido</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="form-label mb-1"><strong>Cor da tampa:</strong></label>
+                            <select
+                              className="form-select form-select-sm"
+                              value={selectedLidColor}
+                              onChange={(e) => setSelectedLidColor(e.target.value)}
+                            >
+                              <option>Branco</option>
+                              <option>Preto</option>
+                              <option>Vermelho</option>
+                              <option>Verde</option>
+                            </select>
+                          </div>
+                        </div>
+
                         <button
                           type="button"
                           className="btn btn-success mt-3"
-                          onClick={() => {
-                            closeProductDetails();
-                            handleNavClick('inicio', true);
-                          }}
+                          onClick={handleRequestQuoteFromModal}
                         >
                           Solicitar Orçamento deste produto
                         </button>
@@ -356,13 +441,37 @@ function App() {
                         <p><strong>Aplicações:</strong> Nutrição animal premium, suplementos, produtos alimentícios e químicos sólidos.</p>
                         <p><strong>Variação por cor:</strong> Tampas em branco, azul, verde e amarelo; corpo em branco ou translúcido.</p>
 
+                        <div className="product-color-select mt-3">
+                          <div className="mb-2">
+                            <label className="form-label mb-1"><strong>Cor do balde:</strong></label>
+                            <select
+                              className="form-select form-select-sm"
+                              value={selectedBucketColor}
+                              onChange={(e) => setSelectedBucketColor(e.target.value)}
+                            >
+                              <option>Branco</option>
+                              <option>Natural translúcido</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="form-label mb-1"><strong>Cor da tampa:</strong></label>
+                            <select
+                              className="form-select form-select-sm"
+                              value={selectedLidColor}
+                              onChange={(e) => setSelectedLidColor(e.target.value)}
+                            >
+                              <option>Branco</option>
+                              <option>Azul</option>
+                              <option>Verde</option>
+                              <option>Amarelo</option>
+                            </select>
+                          </div>
+                        </div>
+
                         <button
                           type="button"
                           className="btn btn-success mt-3"
-                          onClick={() => {
-                            closeProductDetails();
-                            handleNavClick('inicio', true);
-                          }}
+                          onClick={handleRequestQuoteFromModal}
                         >
                           Solicitar Orçamento deste produto
                         </button>
