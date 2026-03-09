@@ -88,7 +88,7 @@ function App() {
                 ✕
               </button>
 
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0 nav-links">
+              <ul className="navbar-nav mx-auto mb-2 mb-lg-0 nav-links">
                 <li className={`nav-item ${activePage === 'inicio' ? 'active' : ''}`}>
                   <span className="nav-link" onClick={() => handleNavClick('inicio')}>Início</span>
                 </li>
@@ -110,7 +110,7 @@ function App() {
               </ul>
 
               {/* Botão de orçamento visível só em telas grandes */}
-              <button className="btn btn-warning rounded-pill quote-button d-none d-lg-inline-block">
+              <button className="btn btn-warning rounded-pill quote-button d-none d-lg-inline-block ms-lg-4">
                 Solicitar Orçamento
               </button>
             </div>

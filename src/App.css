@@ -54,6 +54,7 @@ body {
   transition: transform 0.3s ease, opacity 0.3s ease;
   padding: 80px 20px 20px; /* espaço para não colar no topo */
   z-index: 1050;
+  flex-grow: 0 !important;
 }
 
 .navbar-collapse.show {
@@ -85,6 +86,7 @@ body {
     visibility: visible;
     box-shadow: none;
     padding: 0;
+    flex-grow: 1 !important;
   }
 
   .navbar-collapse .navbar-nav.nav-links {
@@ -92,7 +94,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 0;
+    gap: 10px !important;
   }
 }
 
@@ -101,8 +103,9 @@ body {
   width: 100%;
 }
 
+/* remove regra global que zerava margem e atrapalhava o ajuste do desktop */
 .navbar-nav.nav-links .nav-item {
-  margin: 0; /* remove margem entre os itens */
+  margin: unset;
 }
 
 .logo {
@@ -137,6 +140,7 @@ body {
   .nav-links {
     display: flex;
     flex-direction: row;
+    gap: 15px; /* Adicionado para controlar o gap entre links globalmente */
   }
 
   .hamburger {
@@ -869,4 +873,32 @@ body {
 
 .navbar-toggler-icon::after {
   top: 6px;
+}
+
+@media (min-width: 992px) {
+  /* não deixa o collapse crescer e ocupar a linha inteira */
+  .navbar-collapse {
+    flex-grow: 1 !important;
+    width: auto;
+  }
+
+  /* menu em linha, com espaçamento pequeno controlado aqui */
+  .navbar-collapse .navbar-nav.nav-links {
+    gap: 10px !important; /* << diminuindo espaço dos links */
+    justify-content: center;
+  }
+
+  .navbar-nav.nav-links li {
+    margin: 0 !important;
+  }
+
+  /* remove margens/paddings extras que somam espaço */
+  .navbar-nav.nav-links .nav-item {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .navbar-nav.nav-links .nav-link {
+    padding: 0 8px !important;
+  }
 }
