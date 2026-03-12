@@ -89,9 +89,9 @@ function App() {
   const handleRequestQuoteFromModal = () => {
     // monta descrição amigável do produto
     let productName = '';
-    if (selectedProduct === 'pote900') productName = 'Pote 900ml';
-    if (selectedProduct === 'pote1kg') productName = 'Pote 1kg';
-    if (selectedProduct === 'pote12kg') productName = 'Pote 1,2kg';
+    if (selectedProduct === 'Balde900') productName = 'Balde 900ml';
+    if (selectedProduct === 'Balde1kg') productName = 'Balde 1kg';
+    if (selectedProduct === 'Balde12kg') productName = 'Balde 1,2kg';
 
     const subjectText = `${productName} - Balde: ${selectedBucketColor} | Tampa: ${selectedLidColor}`;
 
@@ -218,7 +218,7 @@ function App() {
             <div className="container">
               <h1 className="fw-bold">EcoApack</h1>
               <p>Embalagens plásticas sustentáveis para indústria</p>
-              <p>Potes 900ml | 1kg | 1,2kg</p>
+              <p>Balde 900ml | 1kg | 1,2kg</p>
               <div className="hero-buttons d-flex flex-wrap gap-2">
                 <button className="btn btn-success whatsapp-button">
                   Falar no WhatsApp
@@ -237,12 +237,12 @@ function App() {
               <div className="row product-list">
                 <div className="col-12 col-md-4 mb-4 d-flex">
                   <div className="product-item w-100 text-center p-3">
-                    <img src={balde} alt="Pote 900ml" className="img-fluid mb-2" />
-                    <h3>Pote 900ml</h3>
+                    <img src={balde} alt="Balde 900ml" className="img-fluid mb-2" />
+                    <h3>Balde 900ml</h3>
                     <button
                       className="btn btn-primary mt-2"
                       type="button"
-                      onClick={() => openProductDetails('pote900')}
+                      onClick={() => openProductDetails('Balde900')}
                     >
                       Ver Detalhes
                     </button>
@@ -250,12 +250,12 @@ function App() {
                 </div>
                 <div className="col-12 col-md-4 mb-4 d-flex">
                   <div className="product-item w-100 text-center p-3">
-                    <img src={balde} alt="Pote 1kg" className="img-fluid mb-2" />
-                    <h3>Pote 1kg</h3>
+                    <img src={balde} alt="Balde 1kg" className="img-fluid mb-2" />
+                    <h3>Balde 1kg</h3>
                     <button
                       className="btn btn-primary mt-2"
                       type="button"
-                      onClick={() => openProductDetails('pote1kg')}
+                      onClick={() => openProductDetails('Balde1kg')}
                     >
                       Ver Detalhes
                     </button>
@@ -263,12 +263,12 @@ function App() {
                 </div>
                 <div className="col-12 col-md-4 mb-4 d-flex">
                   <div className="product-item w-100 text-center p-3">
-                    <img src={balde} alt="Pote 1,2kg" className="img-fluid mb-2" />
-                    <h3>Pote 1,2kg</h3>
+                    <img src={balde} alt="Balde 1,2kg" className="img-fluid mb-2" />
+                    <h3>Balde 1,2kg</h3>
                     <button
                       className="btn btn-primary mt-2"
                       type="button"
-                      onClick={() => openProductDetails('pote12kg')}
+                      onClick={() => openProductDetails('Balde12kg')}
                     >
                       Ver Detalhes
                     </button>
@@ -293,27 +293,27 @@ function App() {
                   ✕
                 </button>
 
-                {selectedProduct === 'pote900' && (
+                {selectedProduct === 'Balde900' && (
                   <>
-                    <h3>Pote 900ml</h3>
+                    <h3>Balde 900ml</h3>
                     <div className="product-modal-body">
                       {/* Coluna esquerda: miniaturas + imagem grande */}
                       <div className="product-modal-left">
                         <div className="product-modal-thumbs-column">
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 900ml - vista 1" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 900ml - vista 2" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 900ml - vista 3" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 900ml - vista 1" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 900ml - vista 2" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 900ml - vista 3" /></div>
                         </div>
                         <div className="product-modal-image-large">
-                          <img src={balde} alt="Pote 900ml" />
+                          <img src={balde} alt="Balde 900ml" />
                         </div>
                       </div>
 
                       {/* Coluna direita: informações + seleção de cores + botão de orçamento */}
                       <div className="product-modal-info">
-                        <p><strong>Descrição:</strong> Pote plástico indicado para produtos em menores volumes, com excelente vedação e alta durabilidade.</p>
+                        <p><strong>Descrição:</strong> Balde plástico indicado para produtos em menores volumes, com excelente vedação e alta durabilidade.</p>
                         <p><strong>Tamanho externo aproximado:</strong> 12 cm (diâmetro) x 10 cm (altura).</p>
-                        <p><strong>Peso do pote (vazio):</strong> 80 g.</p>
+                        <p><strong>Peso do Balde (vazio):</strong> 80 g.</p>
                         <p><strong>Capacidade / quanto suporta:</strong> 900 ml (aprox. 0,9 kg para produtos de densidade próxima à água).</p>
                         <p><strong>Aplicações:</strong> Nutrição animal, suplementos, granulados, produtos em pó e pastosos em menor volume.</p>
                         <p><strong>Variação por cor:</strong> Tampa nas cores branco, preto, verde e azul; corpo em branco ou natural translúcido.</p>
@@ -358,24 +358,24 @@ function App() {
                   </>
                 )}
 
-                {selectedProduct === 'pote1kg' && (
+                {selectedProduct === 'Balde1kg' && (
                   <>
-                    <h3>Pote 1kg</h3>
+                    <h3>Balde 1kg</h3>
                     <div className="product-modal-body">
                       <div className="product-modal-left">
                         <div className="product-modal-thumbs-column">
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1kg - vista 1" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1kg - vista 2" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1kg - vista 3" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1kg - vista 1" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1kg - vista 2" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1kg - vista 3" /></div>
                         </div>
                         <div className="product-modal-image-large">
-                          <img src={balde} alt="Pote 1kg" />
+                          <img src={balde} alt="Balde 1kg" />
                         </div>
                       </div>
                       <div className="product-modal-info">
-                        <p><strong>Descrição:</strong> Pote robusto, ideal para produtos de maior volume, com fechamento seguro para transporte e empilhamento.</p>
+                        <p><strong>Descrição:</strong> Balde robusto, ideal para produtos de maior volume, com fechamento seguro para transporte e empilhamento.</p>
                         <p><strong>Tamanho externo aproximado:</strong> 14 cm (diâmetro) x 12 cm (altura).</p>
-                        <p><strong>Peso do pote (vazio):</strong> 95 g.</p>
+                        <p><strong>Peso do Balde (vazio):</strong> 95 g.</p>
                         <p><strong>Capacidade / quanto suporta:</strong> 1 kg (para produtos sólidos ou em pó, variando conforme densidade).</p>
                         <p><strong>Aplicações:</strong> Rações, nutracêuticos, produtos químicos sólidos, fertilizantes e similares.</p>
                         <p><strong>Variação por cor:</strong> Tampas em branco, preto, vermelho e verde; corpo em branco ou natural.</p>
@@ -419,24 +419,24 @@ function App() {
                   </>
                 )}
 
-                {selectedProduct === 'pote12kg' && (
+                {selectedProduct === 'Balde12kg' && (
                   <>
-                    <h3>Pote 1,2kg</h3>
+                    <h3>Balde 1,2kg</h3>
                     <div className="product-modal-body">
                       <div className="product-modal-left">
                         <div className="product-modal-thumbs-column">
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1,2kg - vista 1" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1,2kg - vista 2" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Pote 1,2kg - vista 3" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1,2kg - vista 1" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1,2kg - vista 2" /></div>
+                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1,2kg - vista 3" /></div>
                         </div>
                         <div className="product-modal-image-large">
-                          <img src={balde} alt="Pote 1,2kg" />
+                          <img src={balde} alt="Balde 1,2kg" />
                         </div>
                       </div>
                       <div className="product-modal-info">
-                        <p><strong>Descrição:</strong> Pote com volume intermediário, indicado para linhas premium ou embalagens econômicas.</p>
+                        <p><strong>Descrição:</strong> Balde com volume intermediário, indicado para linhas premium ou embalagens econômicas.</p>
                         <p><strong>Tamanho externo aproximado:</strong> 15 cm (diâmetro) x 13 cm (altura).</p>
-                        <p><strong>Peso do pote (vazio):</strong> 105 g.</p>
+                        <p><strong>Peso do Balde (vazio):</strong> 105 g.</p>
                         <p><strong>Capacidade / quanto suporta:</strong> 1,2 kg (aprox., conforme densidade do produto).</p>
                         <p><strong>Aplicações:</strong> Nutrição animal premium, suplementos, produtos alimentícios e químicos sólidos.</p>
                         <p><strong>Variação por cor:</strong> Tampas em branco, azul, verde e amarelo; corpo em branco ou translúcido.</p>
@@ -497,7 +497,7 @@ function App() {
                 <div className="col-12 col-md-6 d-flex">
                   <div className="about-text-box p-3 p-md-4 w-100">
                     <p>
-                      A <strong className="about-title-green">EcoApack</strong> fornece potes plásticos industriais
+                      A <strong className="about-title-green">EcoApack</strong> fornece Balde plásticos industriais
                       para os setores de <strong>alimentos</strong>, <strong>químicos</strong> e
                       <strong> nutrição animal</strong>.
                     </p>
@@ -581,7 +581,7 @@ function App() {
             <div className="row g-4 align-items-start">
               <div className="col-12 col-md-6">
                 <p className="empresa-text">
-                  A <strong>EcoApack</strong> é uma empresa especializada na produção de potes e embalagens plásticas
+                  A <strong>EcoApack</strong> é uma empresa especializada na produção de Balde e embalagens plásticas
                   industriais, atendendo os setores de alimentos, químicos e nutrição animal. Nosso foco é oferecer
                   soluções seguras, resistentes e alinhadas às melhores práticas de sustentabilidade.
                 </p>
