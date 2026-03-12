@@ -195,7 +195,7 @@ function App() {
                 <li className="nav-item d-lg-none">
                   <button
                     className="nav-link btn btn-link"
-                    onClick={() => handleNavClick('contato')}
+                    onClick={() => handleNavClick('inicio', true)}
                   >
                     Solicitar Orçamento
                   </button>
@@ -231,7 +231,7 @@ function App() {
 
       {activePage === 'inicio' && (
         <>
-          <section className="products py-4 py-md-5">
+          <section className="products py-4 py-md-5 fade-in-once">
             <div className="container">
               <h2 className="mb-4">Nossos Produtos</h2>
               <div className="row product-list">
@@ -483,9 +483,13 @@ function App() {
             </div>
           )}
 
-          <section className="about py-4 py-md-5">
+          <section className="about py-4 py-md-5 fade-in-once">
             <div className="container">
-              <h2>Sobre a <span>EcoApack</span></h2>
+              <h2>
+                Sobre a{' '}
+                <span>Eco</span>
+                <span className="about-title-green">Aparck</span>
+              </h2>
               <div className="row align-items-stretch mt-3">
                 <div className="col-12 col-md-6 mb-3 mb-md-0">
                   <img src={banner} alt="Linha de produção EcoApack" className="about-image" />
@@ -493,7 +497,7 @@ function App() {
                 <div className="col-12 col-md-6 d-flex">
                   <div className="about-text-box p-3 p-md-4 w-100">
                     <p>
-                      A <strong>EcoApack</strong> fornece potes plásticos industriais
+                      A <strong className="about-title-green">EcoApack</strong> fornece potes plásticos industriais
                       para os setores de <strong>alimentos</strong>, <strong>químicos</strong> e
                       <strong> nutrição animal</strong>.
                     </p>
@@ -506,7 +510,7 @@ function App() {
             </div>
           </section>
 
-          <section id="orcamento-section" className="contact py-4 py-md-5">
+          <section id="orcamento-section" className="contact py-4 py-md-5 fade-in-once">
             <div className="container">
               <h2>Solicite um Orçamento</h2>
               <div className="row contact-container mt-4 g-4">
