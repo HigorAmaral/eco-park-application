@@ -39,6 +39,29 @@ body {
   position: relative;
 }
 
+/* Navbar mais compacto (menor altura) */
+.navbar {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 16px; /* levemente menor que 18px */
+}
+
+.logo-image {
+  height: 80px; /* antes 110px, reduz a altura da logo para caber melhor */
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 15px;
+  }
+
+  .logo-image {
+    height: 64px;
+  }
+}
+
 /* container do menu colapsado como painel lateral direito */
 .navbar-collapse {
   position: fixed;
@@ -226,11 +249,32 @@ body {
   background-image: url('./assets/imagens/banner.png'); /* Adicionei o banner como fundo da seção hero */
   background-size: cover;
   background-position: center;
-  color: rgb(255, 255, 255);
+  color: #0056b3; /* azul para o texto padrão dentro do hero */
   height: 420px; /* antes 360px: aumenta um pouco mais a área do banner */
   margin-top: 0; /* Remove o espaço entre o hero e o navbar */
   font-size: 1.5rem; /* Aumentei o tamanho da fonte para um maior */
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Adicionei sombra interna para destaque */
+  position: relative;
+  z-index: 0;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* escurece o banner */
+  z-index: -1;
+}
+
+/* garante que o conteúdo do hero fique acima do overlay */
+.hero > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1,
+.hero p {
+  color: #26975f; /* garante azul tanto no título quanto nas frases em cima do banner */
 }
 
 .hero h1 {
@@ -301,7 +345,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   height: 2px;
-  background-color: rgba(0, 0, 0, 0.144);
+  background-color: rgba(0, 0, 0, 0.438);
 }
 
 .products h2::before {
@@ -322,7 +366,9 @@ body {
   justify-content: space-between; /* Ajusta o espaçamento entre os itens */
 }
 
+/* Card de produto com título sobre a imagem */
 .product-item {
+  position: relative; /* permite posicionar o título sobre a imagem */
   flex: 1 1 calc(33.333% - 20px); /* Define que os itens ocupem 1/3 da largura com espaçamento */
   box-sizing: border-box; /* Garante que padding e borda sejam incluídos no tamanho total */
   margin: 10px; /* Adiciona espaçamento entre os itens */
@@ -334,23 +380,51 @@ body {
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
+/* Remover hover no card inteiro */
 .product-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* mesmo shadow padrão */
 }
 
+.product-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 15px 15px 0 0; /* casa com o border-radius do card */
+}
+
+.product-item h3 {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 4px 10px;
+  background: rgba(0, 86, 179, 0.9); /* azul forte com leve transparência */
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* garante espaçamento interno do conteúdo abaixo da imagem */
+.product-item .btn {
+  margin-top: 10px;
+}
+
+/* Manter hover só no botão do produto */
 .product-item button {
-  background-color: #007bff; /* Cor azul para os botões */
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 12px 24px; /* Aumentei o tamanho do botão para torná-lo mais largo */
+  padding: 12px 24px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .product-item button:hover {
-  background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+  background-color: #0056b3;
   transform: scale(1.05);
 }
 
@@ -468,15 +542,27 @@ body {
 /* Coluna direita: informações */
 .product-modal-info {
   flex: 1;
-  font-size: 0.95rem;
+  font-size: 0.96rem;
+  line-height: 1.5;
 }
 
 .product-modal-info p {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .product-modal-info strong {
   color: #26975f;
+  font-weight: 600;
+}
+
+/* lista de características dentro do modal */
+.product-modal-info-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.product-modal-info-list li {
+  margin-bottom: 4px;
 }
 
 /* Responsivo: empilha no mobile */
@@ -661,7 +747,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   height: 2px;
-  background-color: rgba(0, 0, 0, 0.267);
+  background-color: rgba(0, 0, 0, 0.438);
 }
 
 /* Desktop grande (padrão) */
@@ -742,18 +828,14 @@ body {
 }
 
 .about {
-  text-align: left; /* volta para o padrão para não confundir */
+  text-align: center; /* centraliza o título e mantém o conteúdo ajustável abaixo */
 }
 
 .about h2 {
   position: relative;
-  display: block;      /* ocupa a linha toda */
-  width: fit-content;  /* largura só do texto */
-  margin-left: auto;   /* empurra o h2 para a direita */
-  margin-right: 180px;  /* distância da borda direita */
-  padding: 0 12px; /* pequeno espaço lateral para o texto */
-  background: transparent; /* não precisamos mais de fundo sólido */
-  z-index: 1;
+  display: inline-block;
+  padding: 0 12px;
+  margin-bottom: 24px;
 }
 
 .about h2::before,
@@ -763,21 +845,55 @@ body {
   top: 50%;
   transform: translateY(-50%);
   height: 2px;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.438); /* mesma cor usada em .products h2 */
 }
 
-/* linha à esquerda começa um pouco afastada do texto */
 .about h2::before {
   right: 100%;
-  margin-right: 16px; /* distância entre o texto e a linha esquerda */
-  width: 60px;      /* comprimento da linha esquerda */
+  margin-right: 16px;
+  width: 250px; /* mesmo tamanho aproximado da linha de "Nossos Produtos" */
 }
 
-/* linha à direita começa um pouco afastada do texto */
 .about h2::after {
   left: 100%;
-  margin-left: 16px; /* distância entre o texto e a linha direita */
-  width: 60px;       /* comprimento da linha direita */
+  margin-left: 16px;
+  width: 250px;
+}
+
+/* Ajustes responsivos iguais aos de .products h2 */
+@media (max-width: 1024px) {
+  .about h2::before,
+  .about h2::after {
+    width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about h2::before,
+  .about h2::after {
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about h2::before,
+  .about h2::after {
+    width: 70px;
+  }
+}
+
+/* Remover overrides antigos que tiravam as linhas ou mexiam em margens do about h2 */
+@media (max-width: 1200px) {
+  .about h2 {
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
+  }
+
+  .about h2::before,
+  .about h2::after {
+    display: inline-block;
+  }
 }
 
 .about-container {
@@ -816,6 +932,18 @@ body {
   margin: 5px 0;
   font-size: 16px;
   line-height: 1.5;
+}
+
+/* Aumenta a letra do texto da EcoApack na seção Sobre */
+.about-text-box p {
+  font-size: 20px; /* antes era menor, agora mais destacado */
+}
+
+/* Em telas bem pequenas, reduz um pouco para caber melhor */
+@media (max-width: 480px) {
+  .about-text-box p {
+    font-size: 16px;
+  }
 }
 
 .about-text strong {
@@ -866,10 +994,6 @@ body {
 
   .about-container {
     gap: 16px;
-  }
-
-  .about-image {
-    width: 45%;
   }
 
   .about-text {
@@ -1052,8 +1176,8 @@ body {
 /* Ajuste do botão de orçamento em telas entre 1006px e 1200px */
 @media (max-width: 1006px) {
   .quote-button {
-    padding: 8px 18px;
-    font-size: 14px;
+    padding: 5px 14px;
+    font-size: 13px;
   }
 }
 
@@ -1299,3 +1423,199 @@ body {
 }
 
 /* ===== FIM FOOTER ===== */
+
+/* Botão de orçamento no navbar menor e mais discreto */
+.quote-button {
+  padding: 6px 16px; /* antes maior: reduz altura e largura */
+  font-size: 14px;  /* fonte menor */
+  border-radius: 20px;
+}
+
+/* Botão de orçamento dentro do modal de produto menor também */
+.product-modal-info .btn.btn-success {
+  padding: 8px 16px; /* reduzido em relação ao padrão */
+  font-size: 14px;
+}
+
+@media (max-width: 1006px) {
+  .quote-button {
+    padding: 5px 14px;
+    font-size: 13px;
+  }
+}
+
+.about-title-green {
+  color: #26975f; /* verde EcoApack */
+}
+
+.about-ecoapack-text {
+  color: #003366; /* azul marinho */
+}
+
+/* Animação base para aparecer rolando (fade-up) */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animação leve de entrada (fade + subir) aplicada apenas na montagem */
+.fade-in-once {
+  animation: fadeInUpOnce 0.6s ease-out;
+}
+
+@keyframes fadeInUpOnce {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === PÁGINA EMPRESA MODERNA === */
+.empresa-page {
+  background: #f5f7fb;
+}
+
+.empresa-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem !important;
+}
+
+.empresa-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.empresa-box {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.empresa-box h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #26975f;
+}
+
+.empresa-box ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0;
+}
+
+.empresa-box li {
+  margin-bottom: 0.4rem;
+}
+
+/* === PÁGINA SUSTENTABILIDADE MODERNA === */
+.sustentabilidade-page {
+  background: #f5fbf7;
+}
+
+.sustentabilidade-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem !important;
+}
+
+.sustentabilidade-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.sustentabilidade-box {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.sustentabilidade-box h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #26975f;
+}
+
+.sustentabilidade-box ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0;
+}
+
+.sustentabilidade-box li {
+  margin-bottom: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .empresa-title,
+  .sustentabilidade-title {
+    font-size: 1.6rem;
+  }
+
+  .empresa-box,
+  .sustentabilidade-box {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-item {
+    flex: 1 1 90%;       /* mais estreito que 100% para parecer menor */
+    max-width: 280px;    /* limita a largura máxima no mobile */
+    margin: 8px auto;    /* centraliza e reduz a margem */
+    padding: 12px 10px;  /* menos padding interno */
+  }
+
+  .product-item img {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .product-item h3 {
+    font-size: 0.85rem;  /* título um pouco menor */
+    padding: 3px 8px;
+  }
+
+  .product-item button {
+    padding: 8px 16px;   /* botão mais compacto */
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-list {
+    justify-content: center;
+  }
+
+  .product-item {
+    flex: 0 0 calc(50% - 16px); /* até 2 por linha no mobile */
+    max-width: calc(50% - 16px);
+    margin: 8px;
+    padding: 10px 8px;  /* um pouco menores */
+  }
+
+  .product-item img {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .product-item h3 {
+    font-size: 0.8rem;
+    padding: 3px 6px;
+  }
+
+  .product-item button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
