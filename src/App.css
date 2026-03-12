@@ -249,11 +249,32 @@ body {
   background-image: url('./assets/imagens/banner.png'); /* Adicionei o banner como fundo da seção hero */
   background-size: cover;
   background-position: center;
-  color: rgb(255, 255, 255);
+  color: #0056b3; /* azul para o texto padrão dentro do hero */
   height: 420px; /* antes 360px: aumenta um pouco mais a área do banner */
   margin-top: 0; /* Remove o espaço entre o hero e o navbar */
   font-size: 1.5rem; /* Aumentei o tamanho da fonte para um maior */
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Adicionei sombra interna para destaque */
+  position: relative;
+  z-index: 0;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* escurece o banner */
+  z-index: -1;
+}
+
+/* garante que o conteúdo do hero fique acima do overlay */
+.hero > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1,
+.hero p {
+  color: #26975f; /* garante azul tanto no título quanto nas frases em cima do banner */
 }
 
 .hero h1 {
@@ -359,9 +380,10 @@ body {
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
+/* Remover hover no card inteiro */
 .product-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* mesmo shadow padrão */
 }
 
 .product-item img {
@@ -390,18 +412,19 @@ body {
   margin-top: 10px;
 }
 
+/* Manter hover só no botão do produto */
 .product-item button {
-  background-color: #007bff; /* Cor azul para os botões */
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 12px 24px; /* Aumentei o tamanho do botão para torná-lo mais largo */
+  padding: 12px 24px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .product-item button:hover {
-  background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+  background-color: #0056b3;
   transform: scale(1.05);
 }
 
@@ -1446,5 +1469,95 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* === PÁGINA EMPRESA MODERNA === */
+.empresa-page {
+  background: #f5f7fb;
+}
+
+.empresa-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem !important;
+}
+
+.empresa-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.empresa-box {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.empresa-box h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #26975f;
+}
+
+.empresa-box ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0;
+}
+
+.empresa-box li {
+  margin-bottom: 0.4rem;
+}
+
+/* === PÁGINA SUSTENTABILIDADE MODERNA === */
+.sustentabilidade-page {
+  background: #f5fbf7;
+}
+
+.sustentabilidade-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem !important;
+}
+
+.sustentabilidade-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.sustentabilidade-box {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.sustentabilidade-box h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #26975f;
+}
+
+.sustentabilidade-box ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0;
+}
+
+.sustentabilidade-box li {
+  margin-bottom: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .empresa-title,
+  .sustentabilidade-title {
+    font-size: 1.6rem;
+  }
+
+  .empresa-box,
+  .sustentabilidade-box {
+    margin-top: 1rem;
   }
 }
