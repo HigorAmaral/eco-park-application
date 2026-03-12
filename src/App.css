@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   background-color: #f4f4f9; /* Fundo claro e moderno */
   color: #333;
 }
@@ -131,7 +131,6 @@ body {
 
 .navbar-nav.nav-links .nav-item {
   margin: 0 !important;
-
 }
 
 .navbar-nav.nav-links .nav-link {
@@ -200,7 +199,7 @@ body {
 .nav-links .nav-link,
 .navbar-nav .nav-link {
   color: #000 !important; /* links pretos */
-  padding-left: 0;  /* remove padding horizontal */
+  padding-left: 0; /* remove padding horizontal */
   padding-right: 0;
   font-weight: 600;
   text-decoration: none !important;
@@ -217,7 +216,7 @@ body {
 }
 
 .navbar-nav .nav-item.active .nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -244,9 +243,9 @@ body {
 }
 
 .hero {
-    text-align: left; /* Alinhei o texto para a esquerda */
+  text-align: left; /* Alinhei o texto para a esquerda */
   padding: 60px 20px; /* Adicionei padding para afastar o conteúdo da borda */
-  background-image: url('./assets/imagens/banner.png'); /* Adicionei o banner como fundo da seção hero */
+  background-image: url("./assets/imagens/banner.png"); /* Adicionei o banner como fundo da seção hero */
   background-size: cover;
   background-position: center;
   color: #0056b3; /* azul para o texto padrão dentro do hero */
@@ -259,7 +258,7 @@ body {
 }
 
 .hero::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.45); /* escurece o banner */
@@ -319,7 +318,8 @@ body {
   background-color: #e64a19;
 }
 
-.product-button, .whatsapp-button {
+.product-button,
+.whatsapp-button {
   margin: 5px;
   padding: 10px 20px;
   border: none;
@@ -340,7 +340,7 @@ body {
 
 .products h2::before,
 .products h2::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -516,14 +516,14 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: none;              /* remove scale global */
+  transform: none; /* remove scale global */
   box-shadow: none;
 }
 
 .product-modal-image-large::before {
-  content: '';
+  content: "";
   position: absolute;
-  width: 140px;                 /* diâmetro da lupa */
+  width: 140px; /* diâmetro da lupa */
   height: 140px;
   border-radius: 50%;
   pointer-events: none;
@@ -532,7 +532,7 @@ body {
   opacity: 0;
   transform: translate(-50%, -50%);
   background-repeat: no-repeat;
-  background-size: 200% 200%;   /* nível de zoom */
+  background-size: 200% 200%; /* nível de zoom */
 }
 
 .product-modal-image-large.lens-active::before {
@@ -682,7 +682,7 @@ body {
 }
 
 .contact-form input:focus {
-  border-color: #4CAF50;
+  border-color: #4caf50;
   outline: none;
 }
 
@@ -717,12 +717,12 @@ body {
 }
 
 .whatsapp-contact span {
-  color: #4CAF50; /* Destaque em verde para horários */
+  color: #4caf50; /* Destaque em verde para horários */
   font-weight: bold;
 }
 
 .whatsapp-button {
-  background-color: #25D366;
+  background-color: #25d366;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -742,7 +742,7 @@ body {
 
 .contact h2::before,
 .contact h2::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -840,7 +840,7 @@ body {
 
 .about h2::before,
 .about h2::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -907,11 +907,16 @@ body {
 }
 
 .about-image {
-  width: 100%;      /* usa toda a coluna do Bootstrap */
+  width: 100%; /* usa toda a coluna do Bootstrap */
   max-width: 520px; /* limite para não estourar */
   height: auto;
   border-radius: 10px;
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%); /* Adicionei um corte vertical no lado direito da imagem */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    90% 100%,
+    0 100%
+  ); /* Adicionei um corte vertical no lado direito da imagem */
 }
 
 .about-text {
@@ -919,8 +924,8 @@ body {
   padding-left: 20px;
   text-align: left;
   color: #333;
-  font-family: 'Verdana', sans-serif; /* Alterei a fonte para 'Verdana' */
-  margin-top: -50px; 
+  font-family: "Verdana", sans-serif; /* Alterei a fonte para 'Verdana' */
+  margin-top: -50px;
 }
 
 .about-text h2 {
@@ -947,7 +952,7 @@ body {
 }
 
 .about-text strong {
-  color: #4CAF50; /* Define a cor verde para a palavra EcoApack */
+  color: #4caf50; /* Define a cor verde para a palavra EcoApack */
 }
 
 /* Borda em volta do texto da seção Sobre a EcoApack */
@@ -964,7 +969,7 @@ body {
   right: 20px;
   width: 70px;
   height: 70px;
-  background-color: #25D366;
+  background-color: #25d366;
   color: white;
   border: none;
   border-radius: 50%;
@@ -1045,7 +1050,7 @@ body {
 
   .hero {
     padding: 30px 16px;
-    height: auto;            /* deixa a altura se ajustar ao conteúdo */
+    height: auto; /* deixa a altura se ajustar ao conteúdo */
     font-size: 1rem;
   }
 
@@ -1064,13 +1069,13 @@ body {
   }
 
   .about-container {
-    flex-direction: column;  /* empilha imagem e texto */
+    flex-direction: column; /* empilha imagem e texto */
     text-align: left;
   }
 
   .about-image {
     width: 100%;
-    clip-path: none;         /* remove o corte em telas pequenas para não distorcer */
+    clip-path: none; /* remove o corte em telas pequenas para não distorcer */
   }
 
   .about-text {
@@ -1079,13 +1084,13 @@ body {
   }
 
   .about h2 {
-    margin-right: 0;         /* não força tão à direita no mobile */
-    margin-left: 16px;       /* puxa um pouco da esquerda */
+    margin-right: 0; /* não força tão à direita no mobile */
+    margin-left: 16px; /* puxa um pouco da esquerda */
   }
 
   .about h2::before,
   .about h2::after {
-    width: 35px;             /* linhas menores em tablet/celular */
+    width: 35px; /* linhas menores em tablet/celular */
   }
 
   .product-list {
@@ -1093,12 +1098,12 @@ body {
   }
 
   .product-item {
-    flex: 1 1 100%;          /* 1 por linha no celular */
+    flex: 1 1 100%; /* 1 por linha no celular */
     max-width: 320px;
   }
 
   .contact-container {
-    flex-direction: column;  /* form em cima, atendimento embaixo */
+    flex-direction: column; /* form em cima, atendimento embaixo */
   }
 
   .contact-form,
@@ -1155,7 +1160,7 @@ body {
 
   .about h2::before,
   .about h2::after {
-    width: 25px;             /* bem curtinhas em telas muito pequenas */
+    width: 25px; /* bem curtinhas em telas muito pequenas */
   }
 }
 
@@ -1220,7 +1225,7 @@ body {
 
 .navbar-toggler-icon::before,
 .navbar-toggler-icon::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   width: 24px;
@@ -1283,7 +1288,7 @@ body {
 }
 
 .navbar-nav .nav-item.active .nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -1298,12 +1303,11 @@ body {
 /* Regra base: pouco espaço entre os itens */
 .navbar-nav.nav-links {
   display: flex;
-  gap: 4px !important;          /* espaço pequeno entre <li> */
+  gap: 4px !important; /* espaço pequeno entre <li> */
 }
 
-
 .navbar-nav.nav-links .nav-link {
-  padding: 2px 6px !important;  /* padding horizontal bem justo */
+  padding: 2px 6px !important; /* padding horizontal bem justo */
 }
 
 /* Menu hambúrguer: links em coluna, um abaixo do outro */
@@ -1329,10 +1333,10 @@ body {
 /* Em telas grandes, restringe a largura do grupo de links e remove sobras nas pontas */
 @media (min-width: 992px) {
   .navbar-nav.nav-links {
-    width: auto;                 /* não ocupa 100% da largura */
-    margin-left: 16px;           /* pequeno espaço após a logo */
-    margin-right: 16px;          /* pequeno espaço antes do botão de orçamento */
-    justify-content: center;     /* mantém os links centralizados dentro desse espaço menor */
+    width: auto; /* não ocupa 100% da largura */
+    margin-left: 16px; /* pequeno espaço após a logo */
+    margin-right: 16px; /* pequeno espaço antes do botão de orçamento */
+    justify-content: center; /* mantém os links centralizados dentro desse espaço menor */
   }
 
   /* Garante que o container do navbar não abra muito espaçamento lateral */
@@ -1408,7 +1412,13 @@ body {
 }
 
 .footer-social-icon.instagram {
-  background: radial-gradient(circle at 30% 30%, #ffd600 0, #ff0080 40%, #ff0000 60%, #833ab4 100%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    #ffd600 0,
+    #ff0080 40%,
+    #ff0000 60%,
+    #833ab4 100%
+  );
 }
 
 .footer-social-icon.facebook {
@@ -1435,7 +1445,7 @@ body {
 /* Botão de orçamento no navbar menor e mais discreto */
 .quote-button {
   padding: 6px 16px; /* antes maior: reduz altura e largura */
-  font-size: 14px;  /* fonte menor */
+  font-size: 14px; /* fonte menor */
   border-radius: 20px;
 }
 
@@ -1580,10 +1590,10 @@ body {
 
 @media (max-width: 767px) {
   .product-item {
-    flex: 1 1 90%;       /* mais estreito que 100% para parecer menor */
-    max-width: 280px;    /* limita a largura máxima no mobile */
-    margin: 8px auto;    /* centraliza e reduz a margem */
-    padding: 12px 10px;  /* menos padding interno */
+    flex: 1 1 90%; /* mais estreito que 100% para parecer menor */
+    max-width: 280px; /* limita a largura máxima no mobile */
+    margin: 8px auto; /* centraliza e reduz a margem */
+    padding: 12px 10px; /* menos padding interno */
   }
 
   .product-item img {
@@ -1591,12 +1601,12 @@ body {
   }
 
   .product-item h3 {
-    font-size: 0.85rem;  /* título um pouco menor */
+    font-size: 0.85rem; /* título um pouco menor */
     padding: 3px 8px;
   }
 
   .product-item button {
-    padding: 8px 16px;   /* botão mais compacto */
+    padding: 8px 16px; /* botão mais compacto */
     font-size: 0.9rem;
   }
 }
@@ -1610,7 +1620,7 @@ body {
     flex: 0 0 calc(50% - 16px); /* até 2 por linha no mobile */
     max-width: calc(50% - 16px);
     margin: 8px;
-    padding: 10px 8px;  /* um pouco menores */
+    padding: 10px 8px; /* um pouco menores */
   }
 
   .product-item img {
