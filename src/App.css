@@ -542,15 +542,27 @@ body {
 /* Coluna direita: informações */
 .product-modal-info {
   flex: 1;
-  font-size: 0.95rem;
+  font-size: 0.96rem;
+  line-height: 1.5;
 }
 
 .product-modal-info p {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .product-modal-info strong {
   color: #26975f;
+  font-weight: 600;
+}
+
+/* lista de características dentro do modal */
+.product-modal-info-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.product-modal-info-list li {
+  margin-bottom: 4px;
 }
 
 /* Responsivo: empilha no mobile */
@@ -982,10 +994,6 @@ body {
 
   .about-container {
     gap: 16px;
-  }
-
-  .about-image {
-    width: 45%;
   }
 
   .about-text {
@@ -1559,5 +1567,55 @@ body {
   .empresa-box,
   .sustentabilidade-box {
     margin-top: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-item {
+    flex: 1 1 90%;       /* mais estreito que 100% para parecer menor */
+    max-width: 280px;    /* limita a largura máxima no mobile */
+    margin: 8px auto;    /* centraliza e reduz a margem */
+    padding: 12px 10px;  /* menos padding interno */
+  }
+
+  .product-item img {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .product-item h3 {
+    font-size: 0.85rem;  /* título um pouco menor */
+    padding: 3px 8px;
+  }
+
+  .product-item button {
+    padding: 8px 16px;   /* botão mais compacto */
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-list {
+    justify-content: center;
+  }
+
+  .product-item {
+    flex: 0 0 calc(50% - 16px); /* até 2 por linha no mobile */
+    max-width: calc(50% - 16px);
+    margin: 8px;
+    padding: 10px 8px;  /* um pouco menores */
+  }
+
+  .product-item img {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .product-item h3 {
+    font-size: 0.8rem;
+    padding: 3px 6px;
+  }
+
+  .product-item button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
   }
 }

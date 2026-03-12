@@ -195,7 +195,7 @@ function App() {
                 <li className="nav-item d-lg-none">
                   <button
                     className="nav-link btn btn-link"
-                    onClick={() => handleNavClick('contato')}
+                    onClick={() => handleNavClick('inicio', true)}
                   >
                     Solicitar Orçamento
                   </button>
