@@ -950,6 +950,14 @@ body {
   color: #4CAF50; /* Define a cor verde para a palavra EcoApack */
 }
 
+/* Borda em volta do texto da seção Sobre a EcoApack */
+.about-text-box {
+  border: 2px solid #26975f; /* borda verde em volta do texto */
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
 .floating-whatsapp-button {
   position: fixed;
   bottom: 20px;
