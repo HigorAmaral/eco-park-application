@@ -509,30 +509,33 @@ body {
   background: #ffffff;
   position: relative;
   cursor: zoom-in;
-  overflow: hidden;
 }
 
 .product-modal-image-large img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: none; /* remove scale global */
-  box-shadow: none;
 }
 
+/* Lupa circular que usa variáveis CSS para posição e fundo */
 .product-modal-image-large::before {
   content: "";
   position: absolute;
-  width: 140px; /* diâmetro da lupa */
+  width: 140px;
   height: 140px;
   border-radius: 50%;
   pointer-events: none;
-  border: 2px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
   opacity: 0;
   transform: translate(-50%, -50%);
   background-repeat: no-repeat;
-  background-size: 200% 200%; /* nível de zoom */
+  background-size: 200% 200%;
+  top: var(--lens-top, 50%);
+  left: var(--lens-left, 50%);
+  background-image: var(--lens-bg-image, none);
+  background-position: var(--lens-bg-pos-x, 50%) var(--lens-bg-pos-y, 50%);
+  z-index: 2;
 }
 
 .product-modal-image-large.lens-active::before {

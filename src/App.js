@@ -4,6 +4,11 @@ import './App.css';
 import logo from './assets/imagens/logo.png';
 import balde from './assets/imagens/balde.jpg';
 import banner from './assets/imagens/banner.png';
+import pro1 from './assets/imagens/pro1.jpeg';
+import pro2 from './assets/imagens/pro2.jpeg';
+import pro3 from './assets/imagens/pro3.jpeg';
+import pro4 from './assets/imagens/pro4.jpeg';
+import pro5 from './assets/imagens/pro5.jpeg';
 
 function App() {
   const [activePage, setActivePage] = useState('inicio');
@@ -11,6 +16,8 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedBucketColor, setSelectedBucketColor] = useState('Branco');
   const [selectedLidColor, setSelectedLidColor] = useState('Branco');
+  const [mainImgBalde1kg, setMainImgBalde1kg] = useState(pro1);
+  const [mainImgBalde12kg, setMainImgBalde12kg] = useState(pro3);
   const orcamentoFormRef = useRef(null);
   const contatoFormRef = useRef(null);
 
@@ -20,7 +27,6 @@ function App() {
     setActivePage(page);
     setIsMenuOpen(false);
 
-    // se já estivermos na página início e for para orçamento, rola para a seção
     if (scrollToOrcamento && page === 'inicio') {
       setTimeout(() => {
         const section = document.getElementById('orcamento-section');
@@ -37,7 +43,7 @@ function App() {
     emailjs
       .sendForm(
         'service_k48nzyk',
-        'template_x6cmgy9', // template do orçamento com {{name}}, {{company}}, {{phone}}, {{email}}, {{title}}, {{quantity}}
+        'template_x6cmgy9',
         orcamentoFormRef.current,
         'XA3bPgeE4kBEMLL_X'
       )
@@ -59,7 +65,7 @@ function App() {
     emailjs
       .sendForm(
         'service_k48nzyk',
-        'template_g099qkk', // template de contato (com {{name}} e {{title}})
+        'template_g099qkk',
         contatoFormRef.current,
         'XA3bPgeE4kBEMLL_X'
       )
@@ -77,9 +83,10 @@ function App() {
 
   const openProductDetails = (product) => {
     setSelectedProduct(product);
-    // reset cores padrão ao abrir detalhes
     setSelectedBucketColor('Branco');
     setSelectedLidColor('Branco');
+    setMainImgBalde1kg(pro1);
+    setMainImgBalde12kg(pro3);
   };
 
   const closeProductDetails = () => {
@@ -87,15 +94,12 @@ function App() {
   };
 
   const handleRequestQuoteFromModal = () => {
-    // monta descrição amigável do produto
     let productName = '';
-    if (selectedProduct === 'Balde900') productName = 'Balde 900ml';
     if (selectedProduct === 'Balde1kg') productName = 'Balde 1kg';
     if (selectedProduct === 'Balde12kg') productName = 'Balde 1,2kg';
 
     const subjectText = `${productName} - Balde: ${selectedBucketColor} | Tampa: ${selectedLidColor}`;
 
-    // garante que estamos na página início e rola até o formulário
     setActivePage('inicio');
     setIsMenuOpen(false);
 
@@ -105,7 +109,6 @@ function App() {
         section.scrollIntoView({ behavior: 'smooth' });
       }
 
-      // preenche o campo "title" do formulário de orçamento
       if (orcamentoFormRef.current) {
         const titleInput = orcamentoFormRef.current.querySelector('input[name="title"]');
         if (titleInput) {
@@ -117,12 +120,37 @@ function App() {
     closeProductDetails();
   };
 
+  // Lógica da lupa: atualiza variáveis CSS na imagem grande
+  const handleLensMove = (e, imgSrc) => {
+    const container = e.currentTarget;
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const percentX = (x / rect.width) * 100;
+    const percentY = (y / rect.height) * 100;
+
+    container.style.setProperty('--lens-left', `${x}px`);
+    container.style.setProperty('--lens-top', `${y}px`);
+    container.style.setProperty('--lens-bg-pos-x', `${percentX}%`);
+    container.style.setProperty('--lens-bg-pos-y', `${percentY}%`);
+    container.style.setProperty('--lens-bg-image', `url(${imgSrc})`);
+
+    if (!container.classList.contains('lens-active')) {
+      container.classList.add('lens-active');
+    }
+  };
+
+  const handleLensLeave = (e) => {
+    const container = e.currentTarget;
+    container.classList.remove('lens-active');
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3 px-md-4">
           <div className="container-fluid">
-            {/* Logo como botão para "Início" */}
             <button
               type="button"
               className="navbar-brand d-flex align-items-center logo btn btn-link p-0 border-0 text-decoration-none"
@@ -131,7 +159,6 @@ function App() {
               <img src={logo} alt="Logo" className="logo-image me-2" />
             </button>
 
-            {/* Botão hamburguer Bootstrap customizado */}
             <button
               className="navbar-toggler"
               type="button"
@@ -143,12 +170,10 @@ function App() {
               <span className="navbar-toggler-icon"></span>
             </button>
 
-            {/* Menu colapsável (painel lateral em mobile) */}
             <div
               className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}
               id="navbarSupportedContent"
             >
-              {/* Botão X para fechar no mobile, posicionado no canto superior direito do painel */}
               <button
                 type="button"
                 className="close-menu-btn d-lg-none"
@@ -157,7 +182,6 @@ function App() {
                 ✕
               </button>
 
-              {/* Links do menu – empilhados em mobile, em linha no desktop */}
               <ul className="navbar-nav mx-auto mb-2 mb-lg-0 nav-links">
                 <li className={`nav-item ${activePage === 'inicio' ? 'active' : ''}`}>
                   <button
@@ -191,7 +215,6 @@ function App() {
                     Contato
                   </button>
                 </li>
-                {/* Link de orçamento no menu hambúrguer (mobile) */}
                 <li className="nav-item d-lg-none">
                   <button
                     className="nav-link btn btn-link"
@@ -202,7 +225,6 @@ function App() {
                 </li>
               </ul>
 
-              {/* Botão de orçamento separado, visível apenas em desktop */}
               <button
                 className="btn btn-warning rounded-pill quote-button d-none d-lg-inline-block ms-lg-4"
                 onClick={() => handleNavClick('inicio', true)}
@@ -218,7 +240,7 @@ function App() {
             <div className="container">
               <h1 className="fw-bold">EcoApack</h1>
               <p>Embalagens plásticas sustentáveis para indústria</p>
-              <p>Balde 900ml | 1kg | 1,2kg</p>
+              <p>Balde| 1kg | 1,2kg</p>
               <div className="hero-buttons d-flex flex-wrap gap-2">
                 <button className="btn btn-success whatsapp-button">
                   Falar no WhatsApp
@@ -234,51 +256,42 @@ function App() {
           <section className="products py-4 py-md-5 fade-in-once">
             <div className="container">
               <h2 className="mb-4">Nossos Produtos</h2>
-              <div className="row product-list">
-                <div className="col-12 col-md-4 mb-4 d-flex">
-                  <div className="product-item w-100 text-center p-3">
-                    <img src={balde} alt="Balde 900ml" className="img-fluid mb-2" />
-                    <h3>Balde 900ml</h3>
-                    <button
-                      className="btn btn-primary mt-2"
-                      type="button"
-                      onClick={() => openProductDetails('Balde900')}
-                    >
-                      Ver Detalhes
-                    </button>
-                  </div>
-                </div>
-                <div className="col-12 col-md-4 mb-4 d-flex">
-                  <div className="product-item w-100 text-center p-3">
-                    <img src={balde} alt="Balde 1kg" className="img-fluid mb-2" />
+              <div className="row justify-content-center product-list">
+                <div className="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
+                  <div className="product-item text-center">
+                    <img src={balde} alt="Balde 1kg" />
                     <h3>Balde 1kg</h3>
-                    <button
-                      className="btn btn-primary mt-2"
-                      type="button"
-                      onClick={() => openProductDetails('Balde1kg')}
-                    >
-                      Ver Detalhes
-                    </button>
+                    <div className="product-item-content">
+                      <button
+                        className="btn btn-primary mt-2"
+                        type="button"
+                        onClick={() => openProductDetails('Balde1kg')}
+                      >
+                        Ver Detalhes
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-4 mb-4 d-flex">
-                  <div className="product-item w-100 text-center p-3">
-                    <img src={balde} alt="Balde 1,2kg" className="img-fluid mb-2" />
+
+                <div className="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
+                  <div className="product-item text-center">
+                    <img src={balde} alt="Balde 1,2kg" />
                     <h3>Balde 1,2kg</h3>
-                    <button
-                      className="btn btn-primary mt-2"
-                      type="button"
-                      onClick={() => openProductDetails('Balde12kg')}
-                    >
-                      Ver Detalhes
-                    </button>
+                    <div className="product-item-content">
+                      <button
+                        className="btn btn-primary mt-2"
+                        type="button"
+                        onClick={() => openProductDetails('Balde12kg')}
+                      >
+                        Ver Detalhes
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Overlay/página sobreposta de detalhes de produto */}
           {selectedProduct && (
             <div className="product-modal-backdrop" onClick={closeProductDetails}>
               <div
@@ -293,83 +306,34 @@ function App() {
                   ✕
                 </button>
 
-                {selectedProduct === 'Balde900' && (
-                  <>
-                    <h3>Balde 900ml</h3>
-                    <div className="product-modal-body">
-                      {/* Coluna esquerda: miniaturas + imagem grande */}
-                      <div className="product-modal-left">
-                        <div className="product-modal-thumbs-column">
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 900ml - vista 1" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 900ml - vista 2" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 900ml - vista 3" /></div>
-                        </div>
-                        <div className="product-modal-image-large">
-                          <img src={balde} alt="Balde 900ml" />
-                        </div>
-                      </div>
-
-                      {/* Coluna direita: informações + seleção de cores + botão de orçamento */}
-                      <div className="product-modal-info">
-                        <p><strong>Descrição:</strong> Balde plástico indicado para produtos em menores volumes, com excelente vedação e alta durabilidade.</p>
-                        <p><strong>Tamanho externo aproximado:</strong> 12 cm (diâmetro) x 10 cm (altura).</p>
-                        <p><strong>Peso do Balde (vazio):</strong> 80 g.</p>
-                        <p><strong>Capacidade / quanto suporta:</strong> 900 ml (aprox. 0,9 kg para produtos de densidade próxima à água).</p>
-                        <p><strong>Aplicações:</strong> Nutrição animal, suplementos, granulados, produtos em pó e pastosos em menor volume.</p>
-                        <p><strong>Variação por cor:</strong> Tampa nas cores branco, preto, verde e azul; corpo em branco ou natural translúcido.</p>
-
-                        {/* Seleção de cor do balde e tampa */}
-                        <div className="product-color-select mt-3">
-                          <div className="mb-2">
-                            <label className="form-label mb-1"><strong>Cor do balde:</strong></label>
-                            <select
-                              className="form-select form-select-sm"
-                              value={selectedBucketColor}
-                              onChange={(e) => setSelectedBucketColor(e.target.value)}
-                            >
-                              <option>Branco</option>
-                              <option>Natural translúcido</option>
-                            </select>
-                          </div>
-                          <div>
-                            <label className="form-label mb-1"><strong>Cor da tampa:</strong></label>
-                            <select
-                              className="form-select form-select-sm"
-                              value={selectedLidColor}
-                              onChange={(e) => setSelectedLidColor(e.target.value)}
-                            >
-                              <option>Branco</option>
-                              <option>Preto</option>
-                              <option>Verde</option>
-                              <option>Azul</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <button
-                          type="button"
-                          className="btn btn-success mt-3"
-                          onClick={handleRequestQuoteFromModal}
-                        >
-                          Solicitar Orçamento deste produto
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                )}
-
                 {selectedProduct === 'Balde1kg' && (
                   <>
                     <h3>Balde 1kg</h3>
                     <div className="product-modal-body">
                       <div className="product-modal-left">
                         <div className="product-modal-thumbs-column">
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1kg - vista 1" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1kg - vista 2" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1kg - vista 3" /></div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde1kg(pro1)}>
+                            <img src={pro1} alt="Balde 1kg - vista 1" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde1kg(pro2)}>
+                            <img src={pro2} alt="Balde 1kg - vista 2" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde1kg(pro3)}>
+                            <img src={pro3} alt="Balde 1kg - vista 3" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde1kg(pro4)}>
+                            <img src={pro4} alt="Balde 1kg - vista 4" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde1kg(pro5)}>
+                            <img src={pro5} alt="Balde 1kg - vista 5" />
+                          </div>
                         </div>
-                        <div className="product-modal-image-large">
-                          <img src={balde} alt="Balde 1kg" />
+                        <div
+                          className="product-modal-image-large"
+                          onMouseMove={(ev) => handleLensMove(ev, mainImgBalde1kg)}
+                          onMouseLeave={handleLensLeave}
+                        >
+                          <img src={mainImgBalde1kg} alt="Balde 1kg" />
                         </div>
                       </div>
                       <div className="product-modal-info">
@@ -378,7 +342,7 @@ function App() {
                         <p><strong>Peso do Balde (vazio):</strong> 95 g.</p>
                         <p><strong>Capacidade / quanto suporta:</strong> 1 kg (para produtos sólidos ou em pó, variando conforme densidade).</p>
                         <p><strong>Aplicações:</strong> Rações, nutracêuticos, produtos químicos sólidos, fertilizantes e similares.</p>
-                        <p><strong>Variação por cor:</strong> Tampas em branco, preto, vermelho e verde; corpo em branco ou natural.</p>
+                        <p><strong>Variação por cor:</strong> Tampas em branco, preto, vermelho, azul, verde e amarelo; corpo em branco, natural translúcido, amarelo ou preto.</p>
 
                         <div className="product-color-select mt-3">
                           <div className="mb-2">
@@ -390,6 +354,8 @@ function App() {
                             >
                               <option>Branco</option>
                               <option>Natural translúcido</option>
+                              <option>Amarelo</option>
+                              <option>Preto</option>
                             </select>
                           </div>
                           <div>
@@ -401,8 +367,10 @@ function App() {
                             >
                               <option>Branco</option>
                               <option>Preto</option>
+                              <option>Azul</option>
                               <option>Vermelho</option>
                               <option>Verde</option>
+                              <option>Amarelo</option>
                             </select>
                           </div>
                         </div>
@@ -425,12 +393,28 @@ function App() {
                     <div className="product-modal-body">
                       <div className="product-modal-left">
                         <div className="product-modal-thumbs-column">
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1,2kg - vista 1" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1,2kg - vista 2" /></div>
-                          <div className="product-modal-thumb"><img src={balde} alt="Balde 1,2kg - vista 3" /></div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde12kg(pro1)}>
+                            <img src={pro1} alt="Balde 1,2kg - vista 1" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde12kg(pro2)}>
+                            <img src={pro2} alt="Balde 1,2kg - vista 2" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde12kg(pro3)}>
+                            <img src={pro3} alt="Balde 1,2kg - vista 3" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde12kg(pro4)}>
+                            <img src={pro4} alt="Balde 1,2kg - vista 4" />
+                          </div>
+                          <div className="product-modal-thumb" onClick={() => setMainImgBalde12kg(pro5)}>
+                            <img src={pro5} alt="Balde 1,2kg - vista 5" />
+                          </div>
                         </div>
-                        <div className="product-modal-image-large">
-                          <img src={balde} alt="Balde 1,2kg" />
+                        <div
+                          className="product-modal-image-large"
+                          onMouseMove={(ev) => handleLensMove(ev, mainImgBalde12kg)}
+                          onMouseLeave={handleLensLeave}
+                        >
+                          <img src={mainImgBalde12kg} alt="Balde 1,2kg" />
                         </div>
                       </div>
                       <div className="product-modal-info">
@@ -439,7 +423,7 @@ function App() {
                         <p><strong>Peso do Balde (vazio):</strong> 105 g.</p>
                         <p><strong>Capacidade / quanto suporta:</strong> 1,2 kg (aprox., conforme densidade do produto).</p>
                         <p><strong>Aplicações:</strong> Nutrição animal premium, suplementos, produtos alimentícios e químicos sólidos.</p>
-                        <p><strong>Variação por cor:</strong> Tampas em branco, azul, verde e amarelo; corpo em branco ou translúcido.</p>
+                        <p><strong>Variação por cor:</strong> Tampas em branco, preto, vermelho, azul, verde e amarelo; corpo em branco, natural translúcido, amarelo ou preto.</p>
 
                         <div className="product-color-select mt-3">
                           <div className="mb-2">
@@ -451,6 +435,8 @@ function App() {
                             >
                               <option>Branco</option>
                               <option>Natural translúcido</option>
+                              <option>Amarelo</option>
+                              <option>Preto</option>
                             </select>
                           </div>
                           <div>
@@ -461,7 +447,9 @@ function App() {
                               onChange={(e) => setSelectedLidColor(e.target.value)}
                             >
                               <option>Branco</option>
+                              <option>Preto</option>
                               <option>Azul</option>
+                              <option>Vermelho</option>
                               <option>Verde</option>
                               <option>Amarelo</option>
                             </select>
@@ -719,11 +707,9 @@ function App() {
         />
       </button>
 
-      {/* Footer */}
       <footer className="site-footer mt-4">
         <div className="container py-4 py-md-5">
           <div className="row gy-3 gy-md-4 align-items-start">
-            {/* Coluna 1: marca e descrição curta */}
             <div className="col-12 col-md-4 text-center text-md-start">
               <span className="footer-brand d-block mb-2">EcoApack</span>
               <p className="footer-text mb-1">
@@ -734,7 +720,6 @@ function App() {
               </p>
             </div>
 
-            {/* Coluna 2: contato e endereço */}
             <div className="col-12 col-md-4 text-center text-md-start footer-contact-col">
               <h6 className="footer-section-title mb-2">Contato</h6>
               <p className="footer-text mb-1">Telefone/WhatsApp: (11) 0000-0000</p>
@@ -745,7 +730,6 @@ function App() {
               </p>
             </div>
 
-            {/* Coluna 3: redes sociais */}
             <div className="col-12 col-md-4 text-center text-md-start text-md-end">
               <h6 className="footer-section-title mb-2">Redes Sociais</h6>
               <div className="footer-social d-flex justify-content-center justify-content-md-end gap-3">
