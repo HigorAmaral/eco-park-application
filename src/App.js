@@ -18,8 +18,10 @@ function App() {
   const [selectedLidColor, setSelectedLidColor] = useState('Branco');
   const [mainImgBalde1kg, setMainImgBalde1kg] = useState(pro1);
   const [mainImgBalde12kg, setMainImgBalde12kg] = useState(pro3);
+  const [isClosingModal, setIsClosingModal] = useState(false);
   const orcamentoFormRef = useRef(null);
   const contatoFormRef = useRef(null);
+      const [notification, setNotification] = useState({ visible: false, type: 'success', message: '' });
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -37,6 +39,13 @@ function App() {
     }
   };
 
+  const showNotification = (type, message) => {
+    setNotification({ visible: true, type, message });
+    setTimeout(() => {
+      setNotification((prev) => ({ ...prev, visible: false }));
+    }, 4000);
+  };
+
   const handleSendOrcamento = (e) => {
     e.preventDefault();
 
@@ -49,12 +58,11 @@ function App() {
       )
       .then(
         () => {
-          alert('Orçamento enviado com sucesso!');
+          showNotification('success', 'Orçamento enviado com sucesso! Em breve entraremos em contato.');
           e.target.reset();
         },
-        (error) => {
-          console.error('Erro ao enviar orçamento:', error);
-          alert('Ocorreu um erro ao enviar o orçamento. Tente novamente mais tarde.');
+        () => {
+          showNotification('error', 'Ocorreu um erro ao enviar o orçamento. Tente novamente mais tarde.');
         }
       );
   };
@@ -71,17 +79,17 @@ function App() {
       )
       .then(
         () => {
-          alert('Mensagem enviada com sucesso!');
+          showNotification('success', 'Mensagem enviada com sucesso! Em breve retornaremos seu contato.');
           e.target.reset();
         },
-        (error) => {
-          console.error('Erro ao enviar mensagem:', error);
-          alert('Ocorreu um erro ao enviar. Tente novamente mais tarde.');
+        () => {
+          showNotification('error', 'Ocorreu um erro ao enviar sua mensagem. Tente novamente mais tarde.');
         }
       );
   };
 
   const openProductDetails = (product) => {
+    setIsClosingModal(false); // garante que não fique em estado de saída
     setSelectedProduct(product);
     setSelectedBucketColor('Branco');
     setSelectedLidColor('Branco');
@@ -90,7 +98,12 @@ function App() {
   };
 
   const closeProductDetails = () => {
-    setSelectedProduct(null);
+    // dispara animação de saída e só depois remove o modal
+    setIsClosingModal(true);
+    setTimeout(() => {
+      setSelectedProduct(null);
+      setIsClosingModal(false);
+    }, 250); // igual ao tempo do animation de saída no CSS
   };
 
   const handleRequestQuoteFromModal = () => {
@@ -148,6 +161,20 @@ function App() {
 
   return (
     <div className="App">
+      {/* Alerta moderno global */}
+      {notification.visible && (
+        <div className={`app-notification app-notification-${notification.type}`}>
+          <span>{notification.message}</span>
+          <button
+            type="button"
+            className="app-notification-close"
+            onClick={() => setNotification((prev) => ({ ...prev, visible: false }))}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <header className="App-header">
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3 px-md-4">
           <div className="container-fluid">
@@ -259,33 +286,35 @@ function App() {
               <div className="row justify-content-center product-list">
                 <div className="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
                   <div className="product-item text-center">
-                    <img src={balde} alt="Balde 1kg" />
-                    <h3>Balde 1kg</h3>
-                    <div className="product-item-content">
-                      <button
-                        className="btn btn-primary mt-2"
-                        type="button"
-                        onClick={() => openProductDetails('Balde1kg')}
-                      >
-                        Ver Detalhes
-                      </button>
+                    <div className="product-image-wrapper">
+                      <img src={balde} alt="Balde 1kg" />
                     </div>
+                    <h3 className="product-title">BALDE 1 KG</h3>
+
+                    <button
+                      className="btn-product-quote mt-2"
+                      type="button"
+                      onClick={() => openProductDetails('Balde1kg')}
+                    >
+                      Ver Detalhes
+                    </button>
                   </div>
                 </div>
 
                 <div className="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
                   <div className="product-item text-center">
-                    <img src={balde} alt="Balde 1,2kg" />
-                    <h3>Balde 1,2kg</h3>
-                    <div className="product-item-content">
-                      <button
-                        className="btn btn-primary mt-2"
-                        type="button"
-                        onClick={() => openProductDetails('Balde12kg')}
-                      >
-                        Ver Detalhes
-                      </button>
+                    <div className="product-image-wrapper">
+                      <img src={balde} alt="Balde 1,2kg" />
                     </div>
+                    <h3 className="product-title">BALDE 1,2 KG</h3>
+
+                    <button
+                      className="btn-product-quote mt-2"
+                      type="button"
+                      onClick={() => openProductDetails('Balde12kg')}
+                    >
+                      Ver Detalhes
+                    </button>
                   </div>
                 </div>
               </div>
@@ -293,9 +322,12 @@ function App() {
           </section>
 
           {selectedProduct && (
-            <div className="product-modal-backdrop" onClick={closeProductDetails}>
+            <div
+              className={`product-modal-backdrop ${isClosingModal ? 'closing' : ''}`}
+              onClick={closeProductDetails}
+            >
               <div
-                className="product-modal"
+                className={`product-modal ${isClosingModal ? 'closing' : ''}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
