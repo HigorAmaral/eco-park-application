@@ -21,7 +21,7 @@ function App() {
   const [isClosingModal, setIsClosingModal] = useState(false);
   const orcamentoFormRef = useRef(null);
   const contatoFormRef = useRef(null);
-      const [notification, setNotification] = useState({ visible: false, type: 'success', message: '' });
+  const [notification, setNotification] = useState({ visible: false, type: 'success', message: '' });
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -89,7 +89,7 @@ function App() {
   };
 
   const openProductDetails = (product) => {
-    setIsClosingModal(false); // garante que não fique em estado de saída
+    setIsClosingModal(false);
     setSelectedProduct(product);
     setSelectedBucketColor('Branco');
     setSelectedLidColor('Branco');
@@ -98,12 +98,11 @@ function App() {
   };
 
   const closeProductDetails = () => {
-    // dispara animação de saída e só depois remove o modal
     setIsClosingModal(true);
     setTimeout(() => {
       setSelectedProduct(null);
       setIsClosingModal(false);
-    }, 250); // igual ao tempo do animation de saída no CSS
+    }, 250);
   };
 
   const handleRequestQuoteFromModal = () => {
@@ -133,7 +132,6 @@ function App() {
     closeProductDetails();
   };
 
-  // Lógica da lupa: atualiza variáveis CSS na imagem grande
   const handleLensMove = (e, imgSrc) => {
     const container = e.currentTarget;
     const rect = container.getBoundingClientRect();
@@ -161,7 +159,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* Alerta moderno global */}
       {notification.visible && (
         <div className={`app-notification app-notification-${notification.type}`}>
           <span>{notification.message}</span>
